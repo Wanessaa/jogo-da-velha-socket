@@ -10,11 +10,12 @@ import java.util.Map;
 public class Servidor {
 
 	static int quantidadeDeJogadores = 0;
+	static String[][] jogadores = new String[1][1];
 	
 	public static void main(String args[]) throws Exception {
 
 		JogoDaVelha jogo = new JogoDaVelha();
-		
+	
 		
 		DatagramSocket serverSocket = new DatagramSocket(9876);
 		System.out.println("Olá!");
@@ -26,6 +27,8 @@ public class Servidor {
 	
 			Arrays.fill(receivedData, (byte)0);
 			DatagramPacket receivePacket = new DatagramPacket(receivedData, receivedData.length);
+			
+			
 			String sentence =  "";
 			String response = "";
 			InetAddress ipAddress;
@@ -34,17 +37,47 @@ public class Servidor {
 			byte[] sendData; 
 			DatagramPacket sendPacket = null;
 			
-			serverSocket.receive(receivePacket); 			
+			//serverSocket.receive(receivePacket); 			
 			
 			while(quantidadeDeJogadores < 2) {
+				serverSocket.receive(receivePacket);
 				sentence = new String(receivePacket.getData()); 
 				response = verificarQuantidadeDeJogadores(sentence, receivePacket);
+				
+				if(quantidadeDeJogadores != 0) {
+					povoarTuplaDeJogadores(receivePacket);
+				}
 				
 				ipAddress = receivePacket.getAddress(); 
 				port = receivePacket.getPort();
 				sendData = response.getBytes(); 
 				sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
 				serverSocket.send(sendPacket);
+			}
+			
+			if(quantidadeDeJogadores == 2) {
+				JogoDaVelha.imprimirTabuleiro(jogo);
+				String jogadorSorteado = JogoDaVelha.sortearOPrimeiroAJogar(jogadores);
+				
+				if(jogadorSorteado.equals(receivePacket.getAddress().toString())) {
+					response = "Você será o primeiro jogador";
+					ipAddress = receivePacket.getAddress(); 
+					port = receivePacket.getPort();
+					sendData = response.getBytes(); 
+					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+					serverSocket.send(sendPacket);
+				} 
+				
+				if(!jogadorSorteado.equals(receivePacket.getAddress().toString())) {
+					response = "Aguarde sua vez";
+					ipAddress = receivePacket.getAddress(); 
+					port = receivePacket.getPort();
+					sendData = response.getBytes(); 
+					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+					serverSocket.send(sendPacket);
+				}
+				
+				JogoDaVelha.iniciar();
 			}
 
 
@@ -80,6 +113,20 @@ public class Servidor {
 			response = "O jogo irá começar";
 		}
 		return response;
+	}
+
+	private static void povoarTuplaDeJogadores(DatagramPacket receivePacket) {
+		
+		if(jogadores[0][0].isEmpty()) {
+			jogadores[0][0] = receivePacket.getAddress().toString();
+			jogadores[0][1] = String.valueOf(receivePacket.getPort());	
+		
+		} else {
+			jogadores[1][0] = receivePacket.getAddress().toString();
+			jogadores[1][1] = String.valueOf(receivePacket.getPort());	
+		}
+		
+		
 	}
 	
 	

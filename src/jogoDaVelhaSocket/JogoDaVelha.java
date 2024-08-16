@@ -1,6 +1,7 @@
 package jogoDaVelhaSocket;
 
 import java.net.DatagramPacket;
+import java.util.Random;
 import java.util.Scanner;
 
 public class JogoDaVelha {
@@ -18,16 +19,22 @@ public class JogoDaVelha {
 	}
 
 	public static void main(String[] args) {
+		iniciar();	
+	}
+
+	
+	public static void iniciar() {
+		
 		Scanner scanner = new Scanner(System.in);
 		int jogadas = 0;
 		boolean venceu = false;
-
+		
 		while (jogadas < 9 && !venceu) {
-			// Ler do teclado a String a ser enviada
-			System.out.println("Digite o texto a ser enviado");
-//			String sentence = keyboardReader.readLine();
-
-			//imprimirTabuleiro(jogo);
+//			// Ler do teclado a String a ser enviada
+//			System.out.println("Digite o texto a ser enviado");
+////			String sentence = keyboardReader.readLine();
+//
+//			//imprimirTabuleiro(jogo);
 			System.out.println("Jogador " + jogadorAtual + ", escolha uma posição: ");
 			int posicao = Integer.parseInt(keyboardReader.readLine());
 
@@ -63,8 +70,6 @@ public class JogoDaVelha {
 		}
 	}
 
-	
-
 	public static void imprimirTabuleiro(JogoDaVelha jogo) {
 		System.out.println();
 		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
@@ -87,6 +92,13 @@ public class JogoDaVelha {
 				System.out.println("---------");
 		}
 		System.out.println();
+	}
+	
+	public static String sortearOPrimeiroAJogar(String[][] jogadores) {
+		Random random = new Random();
+		int linhaSorteada = random.nextInt(2);
+		String jogadorSorteado =  jogadores[linhaSorteada][0];
+		return jogadorSorteado;
 	}
 
 	private static boolean jogadaValida(JogoDaVelha jogo, int posicao) {

@@ -49,7 +49,7 @@ public class Cliente {
 		String modifiedSentence = new String(receivePacket.getData()); 
 		System.out.println("FROM SERVER:" + modifiedSentence);
 		
-		clientSocket.close(); 
+		//clientSocket.close(); 
 	} 
 
 //	public static void main(String[] args) throws Exception {
