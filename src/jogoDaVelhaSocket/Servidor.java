@@ -58,24 +58,17 @@ public class Servidor {
 			if(quantidadeDeJogadores == 2) {
 				JogoDaVelha.imprimirTabuleiro(jogo);
 				String jogadorSorteado = JogoDaVelha.sortearOPrimeiroAJogar(jogadores);
-				
-				if(jogadorSorteado.equals(receivePacket.getAddress().toString())) {
-					response = "Você será o primeiro jogador";
-					ipAddress = receivePacket.getAddress(); 
-					port = receivePacket.getPort();
-					sendData = response.getBytes(); 
-					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-					serverSocket.send(sendPacket);
-				} 
-				
-				if(!jogadorSorteado.equals(receivePacket.getAddress().toString())) {
-					response = "Aguarde sua vez";
-					ipAddress = receivePacket.getAddress(); 
-					port = receivePacket.getPort();
-					sendData = response.getBytes(); 
-					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-					serverSocket.send(sendPacket);
-				}
+			
+				for (int i = 0; i < 2; i++) {
+                    if (jogadores[i][0].equals(jogadorSorteado)) {
+                        response = "Você será o primeiro jogador";
+                    } else {
+                        response = "Aguarde sua vez";
+                    }
+                    sendData = response.getBytes();
+                    sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[i][0]), Integer.parseInt(jogadores[i][1]));
+                    serverSocket.send(sendPacket);
+                }
 				
 				JogoDaVelha.iniciar();
 			}
