@@ -97,7 +97,7 @@ public class JogoDaVelha {
 	public static String sortearOPrimeiroAJogar(String[][] jogadores) {
 		Random random = new Random();
 		int linhaSorteada = random.nextInt(2);
-		String jogadorSorteado =  jogadores[linhaSorteada][0];
+		String jogadorSorteado =  jogadores[linhaSorteada][0] + ":" + jogadores[linhaSorteada][1];
 		return jogadorSorteado;
 	}
 
