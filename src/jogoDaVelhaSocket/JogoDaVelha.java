@@ -23,7 +23,7 @@ public class JogoDaVelha {
 	private static HashMap<Integer, String> jogadoresMapeadosDeAcordoComEnderecoIP = new HashMap<>();
 	private static int jogadorMapeado;
 	
-	private static String[] jogadorSorteadoTupla = jogadorSorteado.split(":");
+	private static String[] jogadorSorteadoTupla;
 
 	public JogoDaVelha() {
 		for (int i = 0; i < this.tabuleiro.length; i++) {
@@ -40,28 +40,23 @@ public class JogoDaVelha {
 	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, String[][] jogadores,
 			JogoDaVelha jogo) throws Exception {
 
-		Scanner scanner = new Scanner(System.in);
+		//Scanner scanner = new Scanner(System.in);
 		int jogadas = 0;
 		boolean venceu = false;
 		
-		//Determinar o jogador que está tentando efetuar a jogada
-		jogadorAtual[0][0] = receivePacket.getAddress().getHostAddress();
-		jogadorAtual[0][1] = String.valueOf(receivePacket.getPort());
-
-//		//Mapear os jogadores para os valores 0 e 1, 0 sendo o jogador sorteado e 1 o não sorteado
-//		jogadoresMapeadosDeAcordoComEnderecoIP.put(0, jogadorSorteadoTupla[0]);
-//		mapearJogadoresDeAcordoComEnderecoIP(jogadores, jogadoresMapeadosDeAcordoComEnderecoIP);
-//		
-//		for(HashMap.Entry<Integer, String> entry: jogadoresMapeadosDeAcordoComEnderecoIP.entrySet()) {
-//			if(entry.getValue().equals(jogadorAtual[0][0])) {
-//				jogadorMapeado = entry.getKey();
-//			}
-//		}
+//		//Determinar o jogador que está tentando efetuar a jogada
+//		jogadorAtual[0][0] = receivePacket.getAddress().getHostAddress();
+//		jogadorAtual[0][1] = String.valueOf(receivePacket.getPort());
+		
 		
 		mapearJogadoresDeAcordoComEnderecoIP(jogadores, jogadorSorteadoTupla);
 		
 		while (jogadas < 9 && !venceu) {
 
+			//Determinar o jogador que está tentando efetuar a jogada
+			jogadorAtual[0][0] = receivePacket.getAddress().getHostAddress();
+			jogadorAtual[0][1] = String.valueOf(receivePacket.getPort());
+			
 			String posicao = new String(receivePacket.getData(), 0, receivePacket.getLength());
 			int posicaoInt = Integer.parseInt(posicao);
 			
@@ -78,7 +73,6 @@ public class JogoDaVelha {
 				}
 			} else {
 				response = "Posição inválida. Tente novamente.";
-				
 			}
 		}
 
@@ -130,6 +124,8 @@ public class JogoDaVelha {
 		Random random = new Random();
 		int linhaSorteada = random.nextInt(2);
 		jogadorSorteado = jogadores[linhaSorteada][0] + ":" + jogadores[linhaSorteada][1];
+		jogadorSorteadoTupla = jogadorSorteado.split(":");
+		
 		return jogadorSorteado;
 	}
 
@@ -201,6 +197,7 @@ public class JogoDaVelha {
 		// para saber qual o endereco do outro jogador
 		String jogadorAtualIP = "";
 		int jogadorAtualPorta = -1;
+		
 		for (int i = 0; i < 1; i++) {
 			if (jogadorAtual[0][0].equals(jogadores[i][0]) && jogadorAtual[i][1].equals(jogadores[i][1])) {
 				jogadorAtualIP = jogadores[i][0];
@@ -258,6 +255,7 @@ public class JogoDaVelha {
 			sendData = response.getBytes();
 			sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadorAtualIP),jogadorAtualPorta);
 			serverSocket.send(sendPacket);
+			serverSocket.receive(receivePacket);
 //		}
 		
 	}
@@ -270,7 +268,7 @@ public class JogoDaVelha {
 			if (tabuleiro[i][0] != -1 && tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2]) {
 				return true;
 			}
-		}
+		} 
 
 		// Verifica colunas
 		for (int i = 0; i < 3; i++) {
