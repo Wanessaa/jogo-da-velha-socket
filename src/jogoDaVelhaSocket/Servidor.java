@@ -4,13 +4,11 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 
 public class Servidor {
 
 	static int quantidadeDeJogadores = 0;
-	static String[][] jogadores = new String[2][2];
+	static String[][] jogadores = new String[2][3];
 
 	public static void main(String args[]) throws Exception {
 
@@ -33,9 +31,7 @@ public class Servidor {
 
 			byte[] sendData;
 			DatagramPacket sendPacket = null;
-
-			// serverSocket.receive(receivePacket);
-
+			
 			while (quantidadeDeJogadores < 2) {
 				
 				serverSocket.receive(receivePacket);
@@ -87,23 +83,11 @@ public class Servidor {
 					sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[i][0]),
 							Integer.parseInt(jogadores[i][1]));
 					serverSocket.send(sendPacket);
-					
-					//imprimirTabuleiro(jogo);
 				}
 
-//				String tabuleiro = JogoDaVelha.imprimirTabuleiro(jogo);
-//				for (int i = 0; i < quantidadeDeJogadores; i++) {
-//					ipAddress = InetAddress.getByName(jogadores[i][0]);
-//					port = Integer.parseInt(jogadores[i][1]);
-//					sendData = tabuleiro.getBytes();
-//					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-//					serverSocket.send(sendPacket);
-//				}
-				
 				serverSocket.receive(receivePacket);
 				
 				JogoDaVelha.iniciar(serverSocket,  receivePacket, jogadores, jogo);
-
 			}
 		}
 	}
@@ -118,17 +102,4 @@ public class Servidor {
 			}
 		}
 	}
-	
-	//primeiro jogador não está recebendo tabuleiro
-//	private static void imprimirTabuleiro(JogoDaVelha jogo) {
-//		String tabuleiro = JogoDaVelha.imprimirTabuleiro(jogo);
-//		for (int j = 0; j < quantidadeDeJogadores; j++) {
-//			InetAddress ipAddress = InetAddress.getByName(jogadores[j][0]);
-//			int port = Integer.parseInt(jogadores[j][1]);
-//			byte[] sendData = tabuleiro.getBytes();
-//			sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-//			serverSocket.send(sendPacket);
-//		}
-//	}
-
 }
