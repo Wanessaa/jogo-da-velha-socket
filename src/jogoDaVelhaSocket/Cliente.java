@@ -24,7 +24,7 @@ public class Cliente {
 		DatagramSocket clientSocket = new DatagramSocket();
 
 		InetAddress ipAddress = InetAddress.getByName("localhost");
-		int port = 9876;
+		int port = 80;
 
 		System.out.println("Deseja jogar o Jogo da Velha s/n?");
 		String sentence = keyboardReader.readLine();

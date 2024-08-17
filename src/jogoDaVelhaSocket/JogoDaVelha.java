@@ -37,8 +37,6 @@ public class JogoDaVelha {
 		// iniciar();
 	}
 	
-	
-
 	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, String[][] jogadores,
 			JogoDaVelha jogo) throws Exception {
 
@@ -50,16 +48,17 @@ public class JogoDaVelha {
 		jogadorAtual[0][0] = receivePacket.getAddress().getHostAddress();
 		jogadorAtual[0][1] = String.valueOf(receivePacket.getPort());
 
-		//Mapear os jogadores para os valores 0 e 1, 0 sendo o jogador sorteado e 1 o não sorteado
-		jogadoresMapeadosDeAcordoComEnderecoIP.put(0, jogadorSorteadoTupla[0]);
-		mapearJogadoresDeAcordoComEnderecoIP(jogadores, jogadoresMapeadosDeAcordoComEnderecoIP);
+//		//Mapear os jogadores para os valores 0 e 1, 0 sendo o jogador sorteado e 1 o não sorteado
+//		jogadoresMapeadosDeAcordoComEnderecoIP.put(0, jogadorSorteadoTupla[0]);
+//		mapearJogadoresDeAcordoComEnderecoIP(jogadores, jogadoresMapeadosDeAcordoComEnderecoIP);
+//		
+//		for(HashMap.Entry<Integer, String> entry: jogadoresMapeadosDeAcordoComEnderecoIP.entrySet()) {
+//			if(entry.getValue().equals(jogadorAtual[0][0])) {
+//				jogadorMapeado = entry.getKey();
+//			}
+//		}
 		
-		for(HashMap.Entry<Integer, String> entry: jogadoresMapeadosDeAcordoComEnderecoIP.entrySet()) {
-			if(entry.getValue().equals(jogadorAtual[0][0])) {
-				jogadorMapeado = entry.getKey();
-			}
-		}
-		
+		mapearJogadoresDeAcordoComEnderecoIP(jogadores, jogadorSorteadoTupla);
 		
 		while (jogadas < 9 && !venceu) {
 
@@ -68,8 +67,7 @@ public class JogoDaVelha {
 			
 
 			if (jogadaValida(jogo, posicaoInt)) {
-				realizarJogada(jogo, posicaoInt, jogadorMapeado);
-				
+				realizarJogada(jogo, posicaoInt);
 				
 				jogadas++;
 				venceu = verificarVitoria(jogo);
@@ -92,12 +90,13 @@ public class JogoDaVelha {
 		}
 	}
 
-	private static void mapearJogadoresDeAcordoComEnderecoIP(String[][] jogadores,
-			HashMap<Integer, String> jogadoresMapeadosDeAcordoComEnderecoIP) {
-		if(jogadoresMapeadosDeAcordoComEnderecoIP.containsValue((jogadores[0][0]))) {
-			jogadoresMapeadosDeAcordoComEnderecoIP.put(1, jogadores[1][0]);
-		}
-		
+	private static void mapearJogadoresDeAcordoComEnderecoIP(String[][] jogadores, String[] jogadorSorteadoTupla) {
+	    jogadoresMapeadosDeAcordoComEnderecoIP.put(0, jogadorSorteadoTupla[0]);
+	    for (String[] jogador : jogadores) {
+	        if (!jogador[0].equals(jogadorSorteadoTupla[0])) {
+	            jogadoresMapeadosDeAcordoComEnderecoIP.put(1, jogador[0]);
+	        }
+	    }
 	}
 
 	public static String imprimirTabuleiro(JogoDaVelha jogo) {
@@ -159,7 +158,8 @@ public class JogoDaVelha {
 		}
 	}
 
-	private static void realizarJogada(JogoDaVelha jogo, int posicao, int jogador) {
+	private static void realizarJogada(JogoDaVelha jogo, int posicao) {
+		int jogador = jogadorMapeado;
 		switch (posicao) {
 		case 1:
 			jogo.getTabuleiro()[0][0] = jogador;
@@ -202,14 +202,25 @@ public class JogoDaVelha {
 		String jogadorAtualIP = "";
 		int jogadorAtualPorta = -1;
 		for (int i = 0; i < 1; i++) {
-			if (jogadorAtual[0][0].equals(jogadores[0][0]) && jogadorAtual[0][1].equals(jogadores[0][1])) {
-				jogadorAtualIP = jogadores[0][0];
-				jogadorAtualPorta = Integer.parseInt(jogadores[0][1]);
-			} else {
-				jogadorAtualIP = jogadores[1][0];
-				jogadorAtualPorta = Integer.parseInt(jogadores[1][1]);
+			if (jogadorAtual[0][0].equals(jogadores[i][0]) && jogadorAtual[i][1].equals(jogadores[i][1])) {
+				jogadorAtualIP = jogadores[i][0];
+				jogadorAtualPorta = Integer.parseInt(jogadores[i][1]);
+				break;
 			}
+//			} else {
+//				jogadorAtualIP = jogadores[1][0];
+//				jogadorAtualPorta = Integer.parseInt(jogadores[1][1]);
+//			}
 		}
+		if (jogadorAtualPorta == -1) {
+	        throw new Exception("Jogador atual não encontrado.");
+	    }
+		
+		if (jogadorSorteadoTupla[0].equals(jogadorAtual[0][0]) && jogadorSorteadoTupla[1].equals(jogadorAtual[0][1])) {
+	        proximoJogador = 1; // Jogador não sorteado
+	    } else {
+	        proximoJogador = 0; // Jogador sorteado
+	    }
 
 		if (jogadorSorteadoTupla[0].equals(jogadorAtual[0][0]) && jogadorSorteadoTupla[1].equals(jogadorAtual[0][1])) {
 			// mensagem para quem jogou

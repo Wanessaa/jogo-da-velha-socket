@@ -16,7 +16,7 @@ public class Servidor {
 
 		JogoDaVelha jogo = new JogoDaVelha();
 
-		DatagramSocket serverSocket = new DatagramSocket(9876);
+		DatagramSocket serverSocket = new DatagramSocket(80);
 		System.out.println("Servidor iniciado!");
 
 		byte[] receivedData = new byte[1024];
@@ -37,6 +37,7 @@ public class Servidor {
 			// serverSocket.receive(receivePacket);
 
 			while (quantidadeDeJogadores < 2) {
+				
 				serverSocket.receive(receivePacket);
 				sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
 
@@ -67,6 +68,8 @@ public class Servidor {
 						serverSocket.send(sendPacket);
 					}
 				}
+				receivePacket = new DatagramPacket(receivedData, receivedData.length);
+				receivedData = new byte[1024];
 			}
 
 			if (quantidadeDeJogadores == 2) {
@@ -98,6 +101,7 @@ public class Servidor {
 //				}
 				
 				serverSocket.receive(receivePacket);
+				
 				JogoDaVelha.iniciar(serverSocket,  receivePacket, jogadores, jogo);
 
 			}
