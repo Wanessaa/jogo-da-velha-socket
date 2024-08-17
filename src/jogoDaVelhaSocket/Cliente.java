@@ -1,25 +1,20 @@
 package jogoDaVelhaSocket;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-//package jogoDaVelhaSocket;
-//
-//import java.io.BufferedReader;
-//import java.io.InputStreamReader;
-//import java.net.DatagramPacket;
-//import java.net.DatagramSocket;
-//import java.net.InetAddress;
-//import java.util.Scanner;
-//
+
 public class Cliente {
 //	private static int jogadorAtual = 0;
 //
 	public static void main(String args[]) throws Exception {
-
+		
 		BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
 		DatagramSocket clientSocket = new DatagramSocket();
 
@@ -30,9 +25,11 @@ public class Cliente {
 		String sentence = keyboardReader.readLine();
 
 		byte[] sendData = sentence.getBytes();
+		
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
 		clientSocket.send(sendPacket);
-
+		
+		
 		byte[] receivedData = new byte[1024];
 		DatagramPacket receivePacket = new DatagramPacket(receivedData, receivedData.length);
 

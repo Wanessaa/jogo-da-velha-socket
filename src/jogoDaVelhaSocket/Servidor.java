@@ -1,5 +1,7 @@
 package jogoDaVelhaSocket;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -10,7 +12,7 @@ import java.util.Map;
 public class Servidor {
 
 	static int quantidadeDeJogadores = 0;
-	static String[][] jogadores = new String[2][2];
+	static String[][] jogadores = new String[2][3];
 
 	public static void main(String args[]) throws Exception {
 
@@ -33,9 +35,7 @@ public class Servidor {
 
 			byte[] sendData;
 			DatagramPacket sendPacket = null;
-
-			// serverSocket.receive(receivePacket);
-
+			
 			while (quantidadeDeJogadores < 2) {
 				
 				serverSocket.receive(receivePacket);
