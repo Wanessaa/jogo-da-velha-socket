@@ -60,14 +60,20 @@ public class JogoDaVelha {
 			if (jogadaValida(jogo, posicaoInt)) {
 				
 				//Mapear jogar que está jogando
-				if(jogadas < 1) {
-					jogadorMapeado = 0;
+//				if(jogadas < 1) {
+//					jogadorMapeado = 0;
+//				} else {
+//					if(proximoJogador == 1) {
+//						jogadorMapeado = 0;
+//					}else {
+//						jogadorMapeado = 1;
+//					}
+//				}
+				
+				if (jogadas % 2 == 0) {
+				    jogadorMapeado = 0;  // Jogador 'O'
 				} else {
-					if(proximoJogador == 1) {
-						jogadorMapeado = 0;
-					}else {
-						jogadorMapeado = 1;
-					}
+				    jogadorMapeado = 1;  // Jogador 'X'
 				}
 				
 				realizarJogada(jogo, posicaoInt, jogadorMapeado);
@@ -80,9 +86,7 @@ public class JogoDaVelha {
 				if (venceu) {
 					//enviarMensagem(proximoJogador, receivePacket.getAddress().getHostAddress(), receivePacket.getPort(), receivePacket, serverSocket, jogo, dadosDoProximoJogador);
 					
-					enviarMensagemDeVencedor(proximoJogador, receivePacket, serverSocket, jogo, dadosDoProximoJogador);
-					
-					
+					enviarMensagemDeVencedor(proximoJogador, receivePacket, serverSocket, jogo, jogadores);
 					serverSocket.close();
 				} 
 //				else {
@@ -107,25 +111,22 @@ public class JogoDaVelha {
 	 *Método para enviar mensagem de quem foi o jogador vencedor
 	***/
 	private static void enviarMensagemDeVencedor(int proximoJogador2, DatagramPacket receivePacket,  DatagramSocket serverSocket, JogoDaVelha jogo,
-			String[][] dadosDoProximoJogador2) throws Exception {
+			String[][] jogadores) throws Exception {
 
-		int jogadorVencedor = -1;
-		if(proximoJogador == 1) {
-			jogadorVencedor = 0;
-		} else {
-			jogadorVencedor = 1;
-		}
+		int jogadorVencedor = proximoJogador2 == 1 ? 0 : 1;
+		String vencedor = jogadorVencedor == 1 ? "X" : "O";
 		
-		response = "O jogador " + jogadorVencedor + "venceu a partida.\n"
+		//Criar mensagem 
+		response = "O jogador " + vencedor + " venceu a partida.\n"
 				+ "============ FIM DE JOGO ==========";
 		sendData = response.getBytes();
-		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(),receivePacket.getPort());
+		
+		//Enviar mensagem para o primeiro jogador
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,  InetAddress.getByName(jogadores[0][0]), Integer.parseInt(jogadores[0][1]));
 		serverSocket.send(sendPacket);
 		
-		String portaEmString = dadosDoProximoJogador[0][1];
-		int portaDoProximoJogador = Integer.parseInt(portaEmString);
-
-		sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(dadosDoProximoJogador[0][0]),portaDoProximoJogador);
+		//Enviar mensagem para o segundo jogador
+		sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[1][0]),Integer.parseInt(jogadores[1][1]));
 		serverSocket.send(sendPacket);
 		serverSocket.receive(receivePacket);
 		
