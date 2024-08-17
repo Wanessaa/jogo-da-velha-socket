@@ -91,6 +91,10 @@ public class JogoDaVelha {
 				}
 			} else {
 				response = "Posição inválida. Tente novamente.";
+				sendData = response.getBytes();
+				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(),receivePacket.getPort());
+				serverSocket.send(sendPacket);
+				serverSocket.receive(receivePacket);
 			}
 		}
 
