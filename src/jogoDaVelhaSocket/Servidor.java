@@ -72,55 +72,37 @@ public class Servidor {
 			if (quantidadeDeJogadores == 2) {
 				JogoDaVelha.imprimirTabuleiro(jogo);
 				String jogadorSorteado = JogoDaVelha.sortearOPrimeiroAJogar(jogadores);
-
+				
 				for (int i = 0; i < 2; i++) {
-					String jogador = jogadores[i][0] + ":" + jogadores[i][1]; 
+					String jogador = jogadores[i][0] + ":" + jogadores[i][1];
 					if (jogador.equals(jogadorSorteado)) {
-                        response = "Você será o primeiro jogador";
-                    } else {
-                        response = "Aguarde sua vez";
-                    }
-                    sendData = response.getBytes();
-                    sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[i][0]), Integer.parseInt(jogadores[i][1]));
-                    serverSocket.send(sendPacket);
+						response = "Você será o primeiro jogador";
+					} else {
+						response = "Aguarde sua vez";
+					}
+					sendData = response.getBytes();
+					sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[i][0]),
+							Integer.parseInt(jogadores[i][1]));
+					serverSocket.send(sendPacket);
+					
+					//imprimirTabuleiro(jogo);
 				}
 
-				JogoDaVelha.iniciar();
+//				String tabuleiro = JogoDaVelha.imprimirTabuleiro(jogo);
+//				for (int i = 0; i < quantidadeDeJogadores; i++) {
+//					ipAddress = InetAddress.getByName(jogadores[i][0]);
+//					port = Integer.parseInt(jogadores[i][1]);
+//					sendData = tabuleiro.getBytes();
+//					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+//					serverSocket.send(sendPacket);
+//				}
+				
+				serverSocket.receive(receivePacket);
+				JogoDaVelha.iniciar(serverSocket,  receivePacket, jogadores, jogo);
+
 			}
-
-//			ipAddress = receivePacket.getAddress(); 
-//			port = receivePacket.getPort(); 
-
-//			String capitalizedSentence = sentence.toUpperCase(); 
-//
-//			byte[] sendData = capitalizedSentence.getBytes(); 
-//			sendData = response.getBytes(); 
-			// sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-
-//			
-//	           String receivedMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
-//	           InetAddress clientAddress = receivePacket.getAddress();
-//	           int clientPort = receivePacket.getPort();
-//	           System.out.println(receivedMessage);
-//			
-//			
-//			serverSocket.send(sendPacket); 
 		}
 	}
-
-//	private static String verificarQuantidadeDeJogadores(String sentence, DatagramPacket receivePacket) {
-//		String response;
-//		if (sentence.equalsIgnoreCase("s") && quantidadeDeJogadores < 3) {
-//			quantidadeDeJogadores = quantidadeDeJogadores + 1;
-//		}
-//
-//		if (quantidadeDeJogadores < 2) {
-//			response = "Esperando outro jogador";
-//		} else {
-//			response = "O jogo irá começar";
-//		}
-//		return response;
-//	}
 
 	private static void povoarTuplaDeJogadores(DatagramPacket receivePacket) {
 
@@ -132,5 +114,17 @@ public class Servidor {
 			}
 		}
 	}
+	
+	//primeiro jogador não está recebendo tabuleiro
+//	private static void imprimirTabuleiro(JogoDaVelha jogo) {
+//		String tabuleiro = JogoDaVelha.imprimirTabuleiro(jogo);
+//		for (int j = 0; j < quantidadeDeJogadores; j++) {
+//			InetAddress ipAddress = InetAddress.getByName(jogadores[j][0]);
+//			int port = Integer.parseInt(jogadores[j][1]);
+//			byte[] sendData = tabuleiro.getBytes();
+//			sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+//			serverSocket.send(sendPacket);
+//		}
+//	}
 
 }

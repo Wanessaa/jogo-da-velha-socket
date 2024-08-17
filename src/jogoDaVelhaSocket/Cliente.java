@@ -42,8 +42,9 @@ public class Cliente {
 		while (true) {
 			//receber resposta do servidor
 			clientSocket.receive(receivePacket);
-			String serverMessage = new String(receivePacket.getData());
-			System.out.println("FROM SERVER:" + serverMessage);
+			String serverMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
+			System.out.println("FROM SERVER:");
+			System.out.println(serverMessage);
 			
 			//verificar se o servidor informou que o jogo terminou
 			if (serverMessage.contains("Fim de jogo") || serverMessage.contains("Vencedor")) {
@@ -51,22 +52,13 @@ public class Cliente {
                break;
             }
 			
-			if(serverMessage.contains("Sua vez")) {
+			if(serverMessage.contains("Sua vez") || serverMessage.contains("primeiro")) {
 				System.out.println("Em qual campo deseja jogar? ");
 				String jogada = keyboardReader.readLine();
                 sendData = jogada.getBytes();
                 sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
                 clientSocket.send(sendPacket);
 			}
-//			
-//			// Perguntar ao jogador sua jogada
-//            System.out.println("Sua jogada (linha e coluna):");
-//            String jogada = keyboardReader.readLine();
-
-//            // Enviar a jogada para o servidor
-//            sendData = jogada.getBytes();
-//            sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-//            clientSocket.send(sendPacket);
 		}
 		 clientSocket.close();
 	}
