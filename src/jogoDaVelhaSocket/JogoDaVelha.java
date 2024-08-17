@@ -59,17 +59,6 @@ public class JogoDaVelha {
 
 			if (jogadaValida(jogo, posicaoInt)) {
 				
-				//Mapear jogar que está jogando
-//				if(jogadas < 1) {
-//					jogadorMapeado = 0;
-//				} else {
-//					if(proximoJogador == 1) {
-//						jogadorMapeado = 0;
-//					}else {
-//						jogadorMapeado = 1;
-//					}
-//				}
-				
 				if (jogadas % 2 == 0) {
 				    jogadorMapeado = 0;  // Jogador 'O'
 				} else {
@@ -79,19 +68,27 @@ public class JogoDaVelha {
 				realizarJogada(jogo, posicaoInt, jogadorMapeado);
 				
 				jogadas++;
-				trocarJogador(jogadores, receivePacket, serverSocket, jogo);
 				
 				venceu = verificarVitoria(jogo);
 				
-				if (venceu) {
-					//enviarMensagem(proximoJogador, receivePacket.getAddress().getHostAddress(), receivePacket.getPort(), receivePacket, serverSocket, jogo, dadosDoProximoJogador);
-					
-					enviarMensagemDeVencedor(proximoJogador, receivePacket, serverSocket, jogo, jogadores);
+				if (jogadas == 9) {
+					response = "============ FIM DE JOGO ==========\\n"
+							+ "O jogo empatou";
+					enviarMensagemFimDeJogo(response, jogadas, receivePacket, serverSocket, jogo, jogadores);
 					serverSocket.close();
-				} 
-//				else {
-//					System.out.println("Jogador " + jogadorAtual + " venceu ");
-//				}
+				} else if(venceu) {
+					
+					int jogadorVencedor = proximoJogador == 1 ? 0 : 1;
+					String vencedor = jogadorVencedor == 1 ? "X" : "O";
+					
+					response = "============ FIM DE JOGO ==========\n"
+							+ "O jogador venceu: " + vencedor;
+					enviarMensagemFimDeJogo(response, proximoJogador, receivePacket, serverSocket, jogo, jogadores);
+					serverSocket.close();
+				}
+				else {
+					trocarJogador(jogadores, receivePacket, serverSocket, jogo);
+				}
 			} else {
 				response = "Posição inválida. Tente novamente.";
 			}
@@ -110,15 +107,9 @@ public class JogoDaVelha {
 	/***
 	 *Método para enviar mensagem de quem foi o jogador vencedor
 	***/
-	private static void enviarMensagemDeVencedor(int proximoJogador2, DatagramPacket receivePacket,  DatagramSocket serverSocket, JogoDaVelha jogo,
+	private static void enviarMensagemFimDeJogo(String response, int proximoJogador2, DatagramPacket receivePacket,  DatagramSocket serverSocket, JogoDaVelha jogo,
 			String[][] jogadores) throws Exception {
 
-		int jogadorVencedor = proximoJogador2 == 1 ? 0 : 1;
-		String vencedor = jogadorVencedor == 1 ? "X" : "O";
-		
-		//Criar mensagem 
-		response = "O jogador " + vencedor + " venceu a partida.\n"
-				+ "============ FIM DE JOGO ==========";
 		sendData = response.getBytes();
 		
 		//Enviar mensagem para o primeiro jogador
