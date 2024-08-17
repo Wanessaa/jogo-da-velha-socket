@@ -1,18 +1,14 @@
 package jogoDaVelhaSocket;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 
 public class Cliente {
-//	private static int jogadorAtual = 0;
-//
+
 	public static void main(String args[]) throws Exception {
 		
 		BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
@@ -33,9 +29,6 @@ public class Cliente {
 		byte[] receivedData = new byte[1024];
 		DatagramPacket receivePacket = new DatagramPacket(receivedData, receivedData.length);
 
-		// Receber o segmento UDP
-//		clientSocket.receive(receivePacket);
-
 		while (true) {
 			//receber resposta do servidor
 			clientSocket.receive(receivePacket);
@@ -50,7 +43,8 @@ public class Cliente {
                break;
             }
 			
-			if(serverMessage.contains("Sua vez") || serverMessage.contains("primeiro")) {
+			
+			if(serverMessage.contains("Sua vez") || serverMessage.contains("primeiro") || serverMessage.contains("inválida")) {
 				System.out.println("Em qual campo deseja jogar? ");
 				String jogada = keyboardReader.readLine();
                 sendData = jogada.getBytes();

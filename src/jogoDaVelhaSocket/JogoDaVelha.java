@@ -1,16 +1,11 @@
 package jogoDaVelhaSocket;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
-import java.util.Scanner;
 
 public class JogoDaVelha {
 
@@ -41,7 +36,6 @@ public class JogoDaVelha {
 	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, String[][] jogadores,
 			JogoDaVelha jogo) throws Exception {
 
-		//Scanner scanner = new Scanner(System.in);
 		int jogadas = 0;
 		boolean venceu = false;
 		
@@ -127,6 +121,9 @@ public class JogoDaVelha {
 		
 	}
 
+	/***
+	 *Mapear jogadores para o dicionário jogadoresMapeadosDeAcordoComEnderecoIP: 0 para o IP do jogador sorteador, 1 para o não sorteado
+	***/
 	private static void mapearJogadoresDeAcordoComEnderecoIP(String[][] jogadores, String[] jogadorSorteadoTupla) {
 	    jogadoresMapeadosDeAcordoComEnderecoIP.put(0, jogadorSorteadoTupla[0]);
 	    for (int i = 0; i < jogadores.length; i++) {
@@ -168,6 +165,9 @@ public class JogoDaVelha {
 		return stringBuilder.toString();
 	}
 
+	/***
+	 *Sortea o primeiro jogador: 0 ou 1
+	***/
 	public static String sortearOPrimeiroAJogar(String[][] jogadores) {
 		Random random = new Random();
 		int linhaSorteada = random.nextInt(2);
@@ -203,7 +203,6 @@ public class JogoDaVelha {
 	}
 
 	private static void realizarJogada(JogoDaVelha jogo, int posicao, int jogador) {
-		//int jogador = jogadorMapeado;
 		switch (posicao) {
 		case 1:
 			jogo.getTabuleiro()[0][0] = jogador;
@@ -240,7 +239,6 @@ public class JogoDaVelha {
 
 	private static void trocarJogador(String[][] jogadores, DatagramPacket receivePacket, DatagramSocket serverSocket, JogoDaVelha jogo)
 			throws Exception {
-		//String[] jogadorSorteadoTupla = jogadorSorteado.split(":");
 
 		// para saber qual o endereco do outro jogador
 		String jogadorAtualIP = receivePacket.getAddress().getHostAddress();
@@ -269,14 +267,11 @@ public class JogoDaVelha {
 		//Se a chave for igual ao valor da variavel proximo jogador pega o valor par da chave no dicionário e seta em dadosDoProximoJogador
 		for (Map.Entry<Integer, String> jogadoresMapeados : jogadoresMapeadosDeAcordoComEnderecoIP.entrySet()) {
 		    Integer chave = jogadoresMapeados.getKey();
-		    System.out.println(chave);
 		    String enderecoIP = jogadoresMapeados.getValue();
-		    System.out.println(enderecoIP);
-		    System.out.println(jogadoresMapeadosDeAcordoComEnderecoIP.size());
+		    
 		    if(chave.equals(proximoJogador)) {
 		    	dadosDoProximoJogador[0][0] = enderecoIP;
 		    	System.err.println(dadosDoProximoJogador[0][0]);
-		    	//break;
 		    }
 		}
 		
@@ -321,7 +316,6 @@ public class JogoDaVelha {
 			serverSocket.receive(receivePacket);
 	}
 	
-
 	private static boolean verificarVitoria(JogoDaVelha jogo) {
 		int[][] tabuleiro = jogo.getTabuleiro();
 
