@@ -6,6 +6,7 @@ import java.io.InputStreamReader;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -16,8 +17,6 @@ public class JogoDaVelha {
 	int[][] tabuleiro = new int[3][3];
 	private static String jogadorSorteado = "";
 	private static String[][] jogadorAtual = new String[1][2];
-	private static int jogadorZero;
-	private static int jogadorUm;
 	private static int proximoJogador;
 	private static String response;
 	private static byte[] sendData;
@@ -45,11 +44,6 @@ public class JogoDaVelha {
 		//Scanner scanner = new Scanner(System.in);
 		int jogadas = 0;
 		boolean venceu = false;
-		
-//		//Determinar o jogador que está tentando efetuar a jogada
-//		jogadorAtual[0][0] = receivePacket.getAddress().getHostAddress();
-//		jogadorAtual[0][1] = String.valueOf(receivePacket.getPort());
-		
 		
 		mapearJogadoresDeAcordoComEnderecoIP(jogadores, jogadorSorteadoTupla);
 		
@@ -79,12 +73,21 @@ public class JogoDaVelha {
 				realizarJogada(jogo, posicaoInt, jogadorMapeado);
 				
 				jogadas++;
+				trocarJogador(jogadores, receivePacket, serverSocket, jogo);
+				
 				venceu = verificarVitoria(jogo);
-				if (!venceu) {
-					trocarJogador(jogadores, receivePacket, serverSocket, jogo);
-				} else {
-					System.out.println("Jogador " + jogadorAtual + " venceu ");
-				}
+				
+				if (venceu) {
+					//enviarMensagem(proximoJogador, receivePacket.getAddress().getHostAddress(), receivePacket.getPort(), receivePacket, serverSocket, jogo, dadosDoProximoJogador);
+					
+					enviarMensagemDeVencedor(proximoJogador, receivePacket, serverSocket, jogo, dadosDoProximoJogador);
+					
+					
+					serverSocket.close();
+				} 
+//				else {
+//					System.out.println("Jogador " + jogadorAtual + " venceu ");
+//				}
 			} else {
 				response = "Posição inválida. Tente novamente.";
 			}
@@ -96,6 +99,36 @@ public class JogoDaVelha {
 		} else {
 			System.out.println("O jogo terminou em empate.");
 		}
+	}
+
+
+
+	/***
+	 *Método para enviar mensagem de quem foi o jogador vencedor
+	***/
+	private static void enviarMensagemDeVencedor(int proximoJogador2, DatagramPacket receivePacket,  DatagramSocket serverSocket, JogoDaVelha jogo,
+			String[][] dadosDoProximoJogador2) throws Exception {
+
+		int jogadorVencedor = -1;
+		if(proximoJogador == 1) {
+			jogadorVencedor = 0;
+		} else {
+			jogadorVencedor = 1;
+		}
+		
+		response = "O jogador " + jogadorVencedor + "venceu a partida.\n"
+				+ "============ FIM DE JOGO ==========";
+		sendData = response.getBytes();
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(),receivePacket.getPort());
+		serverSocket.send(sendPacket);
+		
+		String portaEmString = dadosDoProximoJogador[0][1];
+		int portaDoProximoJogador = Integer.parseInt(portaEmString);
+
+		sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(dadosDoProximoJogador[0][0]),portaDoProximoJogador);
+		serverSocket.send(sendPacket);
+		serverSocket.receive(receivePacket);
+		
 	}
 
 	private static void mapearJogadoresDeAcordoComEnderecoIP(String[][] jogadores, String[] jogadorSorteadoTupla) {
@@ -230,6 +263,8 @@ public class JogoDaVelha {
 		mapearDadosDoProximoJogador(jogadores, proximoJogador);
 
 		enviarMensagem(proximoJogador, jogadorAtualIP, jogadorAtualPorta, receivePacket, serverSocket, jogo, dadosDoProximoJogador);
+		
+		 
 	}
 
 	private static void mapearDadosDoProximoJogador(String[][] jogadores, int proximoJogador) {
@@ -264,9 +299,8 @@ public class JogoDaVelha {
 		
 		//Convertendo valor da porta do próximo jogador de String para inteiro
 		String portaEmString = dadosDoProximoJogador[0][1];
-		System.out.println("Porta em string " + portaEmString);
 		int portaDoProximoJogador = Integer.parseInt(portaEmString);
-		proximoJogador = jogadorZero;
+		
 		
 		//Imprimir tabuleiro para ambos os jogadores 
 		response = imprimirTabuleiro(jogo);
