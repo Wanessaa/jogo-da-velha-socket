@@ -18,7 +18,7 @@ public class Cliente {
 		BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
 		DatagramSocket clientSocket = new DatagramSocket();
 
-		InetAddress ipAddress = InetAddress.getByName("localhost");
+		InetAddress ipAddress = InetAddress.getByName("192.168.18.233");
 		int port = 80;
 
 		System.out.println("Deseja jogar o Jogo da Velha s/n?");
