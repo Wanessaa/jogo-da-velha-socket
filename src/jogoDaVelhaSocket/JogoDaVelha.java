@@ -64,7 +64,19 @@ public class JogoDaVelha {
 			
 
 			if (jogadaValida(jogo, posicaoInt)) {
-				realizarJogada(jogo, posicaoInt);
+				
+				//Mapear jogar que está jogando
+				if(jogadas < 1) {
+					jogadorMapeado = 0;
+				} else {
+					if(proximoJogador == 1) {
+						jogadorMapeado = 0;
+					}else {
+						jogadorMapeado = 1;
+					}
+				}
+				
+				realizarJogada(jogo, posicaoInt, jogadorMapeado);
 				
 				jogadas++;
 				venceu = verificarVitoria(jogo);
@@ -161,8 +173,8 @@ public class JogoDaVelha {
 		}
 	}
 
-	private static void realizarJogada(JogoDaVelha jogo, int posicao) {
-		int jogador = jogadorMapeado;
+	private static void realizarJogada(JogoDaVelha jogo, int posicao, int jogador) {
+		//int jogador = jogadorMapeado;
 		switch (posicao) {
 		case 1:
 			jogo.getTabuleiro()[0][0] = jogador;
