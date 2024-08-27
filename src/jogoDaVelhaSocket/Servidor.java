@@ -68,6 +68,8 @@ public class Servidor {
 				receivedData = new byte[1024];
 			}
 
+			
+			
 			if (quantidadeDeJogadores == 2) {
 				JogoDaVelha.imprimirTabuleiro(jogo);
 				String jogadorSorteado = JogoDaVelha.sortearOPrimeiroAJogar(jogadores);
