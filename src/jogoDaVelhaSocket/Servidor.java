@@ -34,8 +34,10 @@ public class Servidor {
 			
 			while (quantidadeDeJogadores < 2) {
 				
-				serverSocket.receive(receivePacket);
-				sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
+				
+//				serverSocket.receive(receivePacket);
+//				sentence = new String(receivePacket.getData(), 0, receivePacket.getLength());
+				sentence = Comunicacao.receberMensagem(serverSocket);
 
 				if (sentence.equalsIgnoreCase("s") && quantidadeDeJogadores < 2) {
 					povoarTuplaDeJogadores(receivePacket);
@@ -49,9 +51,11 @@ public class Servidor {
 
 					ipAddress = receivePacket.getAddress();
 					port = receivePacket.getPort();
-					sendData = response.getBytes();
-					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-					serverSocket.send(sendPacket);
+//					sendData = response.getBytes();
+//					sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+//					serverSocket.send(sendPacket);
+					
+					Comunicacao.enviarMensagem(serverSocket, response, ipAddress, port);
 
 				}
 
@@ -59,9 +63,11 @@ public class Servidor {
 					for (int i = 0; i < quantidadeDeJogadores; i++) {
 						ipAddress = InetAddress.getByName(jogadores[i][0]);
 						port = Integer.parseInt(jogadores[i][1]);
-						sendData = response.getBytes();
-						sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-						serverSocket.send(sendPacket);
+//						sendData = response.getBytes();
+//						sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+//						serverSocket.send(sendPacket);
+						
+						Comunicacao.enviarMensagem(serverSocket, response, ipAddress, port);
 					}
 				}
 				receivePacket = new DatagramPacket(receivedData, receivedData.length);
@@ -82,11 +88,13 @@ public class Servidor {
 						response = "Aguarde sua vez";
 					}
 					sendData = response.getBytes();
-					sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[i][0]),
-							Integer.parseInt(jogadores[i][1]));
-					serverSocket.send(sendPacket);
+//					sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[i][0]),
+//							Integer.parseInt(jogadores[i][1]));
+//					serverSocket.send(sendPacket);
+					Comunicacao.enviarMensagem(serverSocket, response, InetAddress.getByName(jogadores[i][0]), Integer.parseInt(jogadores[i][1]));
+					
 				}
-
+//todo refatorar
 				serverSocket.receive(receivePacket);
 				
 				JogoDaVelha.iniciar(serverSocket,  receivePacket, jogadores, jogo);

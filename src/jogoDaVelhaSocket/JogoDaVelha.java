@@ -28,10 +28,7 @@ public class JogoDaVelha {
 			}
 		}
 	}
-
-	public static void main(String[] args) {
-		// iniciar();
-	}
+	
 	
 	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, String[][] jogadores,
 			JogoDaVelha jogo) throws Exception {
@@ -111,13 +108,18 @@ public class JogoDaVelha {
 		sendData = response.getBytes();
 		
 		//Enviar mensagem para o primeiro jogador
-		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,  InetAddress.getByName(jogadores[0][0]), Integer.parseInt(jogadores[0][1]));
-		serverSocket.send(sendPacket);
+//		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length,  InetAddress.getByName(jogadores[0][0]), Integer.parseInt(jogadores[0][1]));
+//		serverSocket.send(sendPacket);
+		Comunicacao.enviarMensagem(serverSocket, response, InetAddress.getByName(jogadores[1][0]),Integer.parseInt(jogadores[1][1]));
 		
 		//Enviar mensagem para o segundo jogador
-		sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[1][0]),Integer.parseInt(jogadores[1][1]));
-		serverSocket.send(sendPacket);
-		serverSocket.receive(receivePacket);
+		
+//		sendPacket = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(jogadores[1][0]),Integer.parseInt(jogadores[1][1]));
+//		serverSocket.send(sendPacket);
+		Comunicacao.enviarMensagem(serverSocket, response, InetAddress.getByName(jogadores[1][0]), Integer.parseInt(jogadores[1][1]));
+		
+		//serverSocket.receive(receivePacket);
+		Comunicacao.receberMensagem(serverSocket);
 		
 	}
 
