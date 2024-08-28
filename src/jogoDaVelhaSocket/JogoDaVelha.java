@@ -290,6 +290,7 @@ public class JogoDaVelha {
 		
 		//Convertendo valor da porta do próximo jogador de String para inteiro
 		String portaEmString = dadosDoProximoJogador[0][1];
+		System.out.println(portaEmString);
 		int portaDoProximoJogador = Integer.parseInt(portaEmString);
 		
 		

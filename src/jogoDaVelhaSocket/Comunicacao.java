@@ -26,8 +26,8 @@ public class Comunicacao {
 
 			//Receber o segmento UDP
 			clientSocket.receive(receivePacket); 
-
-			return new String(receivePacket.getData()); 
+			return new String(receivePacket.getData(), 0, receivePacket.getLength());
+//			return new String(receivePacket.getData()); 
 	    }
 
 }

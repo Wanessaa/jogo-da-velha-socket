@@ -20,22 +20,22 @@ public class Cliente {
 		System.out.println("Deseja jogar o Jogo da Velha s/n?");
 		String sentence = keyboardReader.readLine();
 
-	//	byte[] sendData = sentence.getBytes();
-		
-//		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-//		clientSocket.send(sendPacket);
-		
+		byte[] sendData = sentence.getBytes();
+//		
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+		//clientSocket.send(sendPacket);
+//		
 		
 		Comunicacao.enviarMensagem(clientSocket, sentence, ipAddress, port);
 		
 		byte[] receivedData = new byte[1024];
 		DatagramPacket receivePacket = new DatagramPacket(receivedData, receivedData.length);
-		
 
 		while (true) {
 			//receber resposta do servidor
-			clientSocket.receive(receivePacket);
-			String serverMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
+			String serverMessage = Comunicacao.receberMensagem(clientSocket);
+		//	clientSocket.receive(receivePacket);
+		//	String serverMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
 			System.out.println("FROM SERVER:");
 			System.out.println(serverMessage);
 			
@@ -50,12 +50,10 @@ public class Cliente {
 			if(serverMessage.contains("Sua vez") || serverMessage.contains("primeiro") || serverMessage.contains("inválida")) {
 				System.out.println("Em qual campo deseja jogar? ");
 				String jogada = keyboardReader.readLine();
-				
-				Comunicacao.enviarMensagem(clientSocket, sentence, ipAddress, port);
-//                sendData = jogada.getBytes();
-//                
+                sendData = jogada.getBytes();
 //                sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
 //                clientSocket.send(sendPacket);
+                Comunicacao.enviarMensagem(clientSocket, jogada, ipAddress, port);
 			}
 		}
 		 clientSocket.close();
