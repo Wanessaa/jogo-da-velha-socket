@@ -30,7 +30,7 @@ public class JogoDaVelha {
 	}
 	
 	
-	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, String[][] jogadores,
+	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, HashMap<Integer, Jogador> jogadores,
 			JogoDaVelha jogo) throws Exception {
 
 		int jogadas = 0;
