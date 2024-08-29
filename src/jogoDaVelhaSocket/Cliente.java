@@ -14,18 +14,16 @@ public class Cliente {
 		BufferedReader keyboardReader = new BufferedReader(new InputStreamReader(System.in));
 		DatagramSocket clientSocket = new DatagramSocket();
 
-		InetAddress ipAddress = InetAddress.getByName("192.168.18.233");
+		InetAddress ipAddress = InetAddress.getByName("localhost");
 		int port = 80;
 
 		System.out.println("Deseja jogar o Jogo da Velha s/n?");
 		String sentence = keyboardReader.readLine();
 
 		byte[] sendData = sentence.getBytes();
-//		
-		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-		//clientSocket.send(sendPacket);
-//		
 		
+		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
+
 		Comunicacao.enviarMensagem(clientSocket, sentence, ipAddress, port);
 		
 		byte[] receivedData = new byte[1024];

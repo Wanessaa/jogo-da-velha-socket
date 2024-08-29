@@ -6,11 +6,13 @@ public class Jogador {
 	private int id;
 	private String ip;
 	private int porta;
+	private boolean suaVez;
 	
 	public Jogador(int id, String ip, int porta) {
 		this.id = id;
 		this.ip = ip;
 		this.porta = porta;
+		this.suaVez = false;
 	}
 	
 	public int getId() {
@@ -35,7 +37,17 @@ public class Jogador {
 	
 	public void setPorta(int porta) {
 		this.porta = porta;
+	}
+
+	public boolean isSuaVez() {
+		return suaVez;
+	}
+
+	public void setSuaVez(boolean suaVez) {
+		this.suaVez = suaVez;
 	} 
+	
+	
 	
 	
 }
