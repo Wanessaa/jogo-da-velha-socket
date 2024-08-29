@@ -84,6 +84,7 @@ public class Servidor {
 				for(Jogador jogador : jogadoresMapeados.values()) {
 					if(jogador.getId() == 0) {
 						response = "Você será o primeiro jogador";
+						
 					} else {
 						response = "Aguarde sua vez";
 					}

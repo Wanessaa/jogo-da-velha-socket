@@ -34,8 +34,7 @@ public class Cliente {
 		while (true) {
 			//receber resposta do servidor
 			String serverMessage = Comunicacao.receberMensagem(clientSocket);
-		//	clientSocket.receive(receivePacket);
-		//	String serverMessage = new String(receivePacket.getData(), 0, receivePacket.getLength());
+
 			System.out.println("FROM SERVER:");
 			System.out.println(serverMessage);
 			
@@ -51,8 +50,7 @@ public class Cliente {
 				System.out.println("Em qual campo deseja jogar? ");
 				String jogada = keyboardReader.readLine();
                 sendData = jogada.getBytes();
-//                sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
-//                clientSocket.send(sendPacket);
+
                 Comunicacao.enviarMensagem(clientSocket, jogada, ipAddress, port);
 			}
 		}
