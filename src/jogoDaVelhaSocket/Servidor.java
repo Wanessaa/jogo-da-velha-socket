@@ -24,7 +24,6 @@ public class Servidor {
 
 		while (true) {
 
-//			//Arrays.fill(receivedData, (byte) 0);
 			DatagramPacket receivePacket = new DatagramPacket(receivedData, receivedData.length);
 
 			String sentence = "";
