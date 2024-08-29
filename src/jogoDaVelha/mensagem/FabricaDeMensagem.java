@@ -9,7 +9,7 @@ import jogoDaVelhaSocket.JogoDaVelha;
 
 public class FabricaDeMensagem {
 	
-	public static void enviarMensagem(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,
+	public static void enviarMensagemDeJogadas(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,
 			JogoDaVelha jogo) throws Exception {
 		
 		String response;

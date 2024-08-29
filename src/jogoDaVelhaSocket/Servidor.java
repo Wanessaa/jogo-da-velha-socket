@@ -10,9 +10,7 @@ import jogoDaVelha.mensagem.EnvioDePacote;
 
 public class Servidor {
 
-	static int quantidadeDeJogadores = 0;
-	static String[][] jogadores = new String[2][3];
-	
+	static int quantidadeDeJogadores = 0;	
 	static HashMap<Integer, Jogador> jogadoresMapeados = new HashMap<>();
 
 	public static void main(String args[]) throws Exception {
@@ -39,7 +37,7 @@ public class Servidor {
 			while (quantidadeDeJogadores < 2) {
 				
 				sentence = EnvioDePacote.receberMensagem(serverSocket, receivePacket);
-
+				
 				if (sentence.equalsIgnoreCase("s") && quantidadeDeJogadores < 2) {
 					povoarJogadoresMapeados(receivePacket);
 					quantidadeDeJogadores++;

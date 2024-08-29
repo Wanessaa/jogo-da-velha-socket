@@ -2,16 +2,16 @@ package jogoDaVelhaSocket;
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
-import java.net.InetAddress;
 import java.util.HashMap;
 
+import jogoDaVelha.mensagem.EnvioDePacote;
 import jogoDaVelha.mensagem.FabricaDeMensagem;
 
 public class JogoDaVelha {
 
 	int[][] tabuleiro = new int[3][3];
 	private static String response;
-	private static byte[] sendData;
+	//private static byte[] sendData;
 	private static Jogador jogadorMapeado;
 	
 
@@ -70,55 +70,15 @@ public class JogoDaVelha {
 				}
 				else {
 					trocarJogador(jogadores, serverSocket);
-					FabricaDeMensagem.enviarMensagem(jogadores, serverSocket, jogo);
+					FabricaDeMensagem.enviarMensagemDeJogadas(jogadores, serverSocket, jogo);
 					serverSocket.receive(receivePacket);
 				}
 			} else {
 				response = "Posição inválida. Tente novamente.";
-				sendData = response.getBytes();
-				DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, receivePacket.getAddress(),receivePacket.getPort());
-				serverSocket.send(sendPacket);
+				EnvioDePacote.enviarMensagem(serverSocket, response, receivePacket.getAddress(), receivePacket.getPort());
 				serverSocket.receive(receivePacket);
 			}
 		}
-	}
-
-
-	private static int informarQuemEOVencedor(HashMap<Integer, Jogador> jogadores) {
-		int jogadorVencedor = -1;
-		for(Jogador jogador : jogadores.values()) {
-			if(jogador.isSuaVez() == true) {
-				return jogadorVencedor = jogador.getId();
-			}
-		}
-		return jogadorVencedor;
-	}
-	
-	public static String imprimirTabuleiro(JogoDaVelha jogo) {
-		StringBuilder stringBuilder = new StringBuilder();
-		stringBuilder.append("\n");
-
-		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
-			for (int j = 0; j < jogo.getTabuleiro()[i].length; j++) {
-				if (jogo.getTabuleiro()[i][j] == -1) {
-					stringBuilder.append(" ");
-				} else if (jogo.getTabuleiro()[i][j] == 1) {
-					stringBuilder.append("X");
-				} else if (jogo.getTabuleiro()[i][j] == 0) {
-					stringBuilder.append("O");
-				} else {
-					stringBuilder.append(jogo.getTabuleiro()[i][j]);
-				}
-
-				if (j < 2)
-					stringBuilder.append(" | ");
-			}
-			System.out.println();
-			if (i < 2)
-				stringBuilder.append("\n---------\n");
-		}
-		stringBuilder.append("\n");
-		return stringBuilder.toString();
 	}
 
 	private static boolean jogadaValida(JogoDaVelha jogo, int posicao) {
@@ -181,19 +141,6 @@ public class JogoDaVelha {
 
 	}
 
-	private static void trocarJogador(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket)
-			throws Exception {
-
-		for(Jogador jogador : jogadores.values()) {
-			if(jogador.isSuaVez() == true) {
-				jogador.setSuaVez(false);
-			} else {
-				jogador.setSuaVez(true);
-			}
-		}
-	}
-
-	
 	private static boolean verificarVitoria(JogoDaVelha jogo) {
 		int[][] tabuleiro = jogo.getTabuleiro();
 
@@ -221,6 +168,55 @@ public class JogoDaVelha {
 		}
 
 		return false;
+	}
+
+	private static int informarQuemEOVencedor(HashMap<Integer, Jogador> jogadores) {
+		int jogadorVencedor = -1;
+		for(Jogador jogador : jogadores.values()) {
+			if(jogador.isSuaVez() == true) {
+				return jogadorVencedor = jogador.getId();
+			}
+		}
+		return jogadorVencedor;
+	}
+	
+	public static String imprimirTabuleiro(JogoDaVelha jogo) {
+		StringBuilder stringBuilder = new StringBuilder();
+		stringBuilder.append("\n");
+
+		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
+			for (int j = 0; j < jogo.getTabuleiro()[i].length; j++) {
+				if (jogo.getTabuleiro()[i][j] == -1) {
+					stringBuilder.append(" ");
+				} else if (jogo.getTabuleiro()[i][j] == 1) {
+					stringBuilder.append("X");
+				} else if (jogo.getTabuleiro()[i][j] == 0) {
+					stringBuilder.append("O");
+				} else {
+					stringBuilder.append(jogo.getTabuleiro()[i][j]);
+				}
+
+				if (j < 2)
+					stringBuilder.append(" | ");
+			}
+			System.out.println();
+			if (i < 2)
+				stringBuilder.append("\n---------\n");
+		}
+		stringBuilder.append("\n");
+		return stringBuilder.toString();
+	}
+	
+	private static void trocarJogador(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket)
+			throws Exception {
+
+		for(Jogador jogador : jogadores.values()) {
+			if(jogador.isSuaVez() == true) {
+				jogador.setSuaVez(false);
+			} else {
+				jogador.setSuaVez(true);
+			}
+		}
 	}
 
 	public int[][] getTabuleiro() {

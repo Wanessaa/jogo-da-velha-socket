@@ -28,12 +28,11 @@ public class EnvioDePacote {
 	    
 	    public static String receberMensagem (DatagramSocket clientSocket, DatagramPacket receivePacket) throws IOException {
 			//Criar o objeto que armazenar o segmento UDP de resposta
-			byte[] receivedData = new byte[1024]; 
+			//byte[] receivedData = new byte[1024]; 
 
 			//Receber o segmento UDP
 			clientSocket.receive(receivePacket); 
 			return new String(receivePacket.getData(), 0, receivePacket.getLength());
-//			return new String(receivePacket.getData()); 
 	    }
 
 }
