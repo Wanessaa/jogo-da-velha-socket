@@ -6,6 +6,8 @@ import java.net.InetAddress;
 import java.util.Arrays;
 import java.util.HashMap;
 
+import jogoDaVelha.mensagem.EnvioDePacote;
+
 public class Servidor {
 
 	static int quantidadeDeJogadores = 0;
@@ -36,7 +38,7 @@ public class Servidor {
 			
 			while (quantidadeDeJogadores < 2) {
 				
-				sentence = Comunicacao.receberMensagem(serverSocket, receivePacket);
+				sentence = EnvioDePacote.receberMensagem(serverSocket, receivePacket);
 
 				if (sentence.equalsIgnoreCase("s") && quantidadeDeJogadores < 2) {
 					povoarJogadoresMapeados(receivePacket);
@@ -51,7 +53,7 @@ public class Servidor {
 					ipAddress = receivePacket.getAddress();
 					port = receivePacket.getPort();
 					
-					Comunicacao.enviarMensagem(serverSocket, response, ipAddress, port);
+					EnvioDePacote.enviarMensagem(serverSocket, response, ipAddress, port);
 
 				}
 
@@ -60,7 +62,7 @@ public class Servidor {
 					for (Jogador jogador : jogadoresMapeados.values()) {
                         ipAddress = InetAddress.getByName(jogador.getIp());
                         port = jogador.getPorta();
-                        Comunicacao.enviarMensagem(serverSocket, response, ipAddress, port);
+                        EnvioDePacote.enviarMensagem(serverSocket, response, ipAddress, port);
                     }
 				}
 				receivePacket = new DatagramPacket(receivedData, receivedData.length);
@@ -78,7 +80,7 @@ public class Servidor {
 					}
 					
 					sendData = response.getBytes();
-					Comunicacao.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()), jogador.getPorta());
+					EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()), jogador.getPorta());
 					
 				}
 

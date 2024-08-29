@@ -6,6 +6,8 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
+import jogoDaVelha.mensagem.EnvioDePacote;
+
 
 public class Cliente {
 
@@ -24,14 +26,14 @@ public class Cliente {
 		
 		DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, ipAddress, port);
 
-		Comunicacao.enviarMensagem(clientSocket, sentence, ipAddress, port);
+		EnvioDePacote.enviarMensagem(clientSocket, sentence, ipAddress, port);
 		
 		byte[] receivedData = new byte[1024];
 		DatagramPacket receivePacket = new DatagramPacket(receivedData, receivedData.length);
 
 		while (true) {
 			//receber resposta do servidor
-			String serverMessage = Comunicacao.receberMensagem(clientSocket);
+			String serverMessage = EnvioDePacote.receberMensagem(clientSocket);
 
 			System.out.println("FROM SERVER:");
 			System.out.println(serverMessage);
@@ -49,7 +51,7 @@ public class Cliente {
 				String jogada = keyboardReader.readLine();
                 sendData = jogada.getBytes();
 
-                Comunicacao.enviarMensagem(clientSocket, jogada, ipAddress, port);
+                EnvioDePacote.enviarMensagem(clientSocket, jogada, ipAddress, port);
 			}
 		}
 		 clientSocket.close();
