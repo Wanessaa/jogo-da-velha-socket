@@ -19,7 +19,7 @@ public class Cliente {
 		InetAddress ipAddress = InetAddress.getByName("localhost");
 		int port = 80;
 
-		System.out.println("Deseja jogar o Jogo da Velha s/n?");
+		System.out.println("Vamos de jogo da velha s/n?");
 		String sentence = keyboardReader.readLine();
 
 		EnvioDePacote.enviarMensagem(clientSocket, sentence, ipAddress, port);
@@ -31,7 +31,7 @@ public class Cliente {
 			//receber resposta do servidor
 			String serverMessage = EnvioDePacote.receberMensagem(clientSocket);
 
-			System.out.println("FROM SERVER:");
+			System.out.println("Servidor:");
 			System.out.println(serverMessage);
 			
 			//verificar se o servidor informou que o jogo terminou
@@ -42,8 +42,8 @@ public class Cliente {
             }
 			
 			
-			if(serverMessage.contains("Sua vez") || serverMessage.contains("primeiro") || serverMessage.contains("inválida")) {
-				System.out.println("Em qual campo deseja jogar? ");
+			if(serverMessage.contains("Sua vez") || serverMessage.contains("primeiro")  || serverMessage.contains("inválida")) {
+				System.out.println("Por favor, selecione uma posição. ");
 				String jogada = keyboardReader.readLine();
 
                 EnvioDePacote.enviarMensagem(clientSocket, jogada, ipAddress, port);

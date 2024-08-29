@@ -42,9 +42,9 @@ public class Servidor {
 					quantidadeDeJogadores++;
 
 					if (quantidadeDeJogadores == 1) {
-						response = "Esperando outro jogador";
+						response = "Esperando o outro jogador...\n";
 					} else {
-						response = "O jogo irá começar";
+						response = "O jogo está prestes a começar!!!\n";
 					}
 
 					ipAddress = receivePacket.getAddress();
@@ -70,14 +70,17 @@ public class Servidor {
 				
 				for(Jogador jogador : jogadoresMapeados.values()) {
 					if(jogador.getId() == 0) {
-						response = "Você será o primeiro jogador";
+						response = "Você será o primeiro jogador!";
+						String tabuleiroVazio = jogo.imprimirTabuleiro(jogo);
+						EnvioDePacote.enviarMensagem(serverSocket, tabuleiroVazio, InetAddress.getByName(jogador.getIp()), jogador.getPorta());
 						jogador.setSuaVez(true);
 					} else {
-						response = "Aguarde sua vez";
+						response = "Aguarde, seu oponente começará a partida";
 					}
 					
 					sendData = response.getBytes();
 					EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()), jogador.getPorta());
+					
 					
 				}
 

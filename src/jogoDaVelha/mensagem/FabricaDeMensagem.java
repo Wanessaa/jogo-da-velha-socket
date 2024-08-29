@@ -17,7 +17,7 @@ public class FabricaDeMensagem {
 		
 		for (Jogador jogador : jogadores.values()) {
 			if (jogador.isSuaVez() == true) {
-				response = "Sua vez";
+				response = "Sua vez!";
 				EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
 						jogador.getPorta());
 			} else {
