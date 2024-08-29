@@ -11,7 +11,6 @@ public class JogoDaVelha {
 
 	int[][] tabuleiro = new int[3][3];
 	private static String response;
-	//private static byte[] sendData;
 	private static Jogador jogadorMapeado;
 	
 
