@@ -1,26 +1,16 @@
 package jogoDaVelhaSocket;
 
+import java.io.ByteArrayInputStream;
+import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 
 import jogoDaVelhaSocket.mensagem.EnvioDePacote;
 import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
+import jogoDaVelhaSocket.utils.ItemTabuleiro;
 
 public class JogoDaVelha {
-	
-	enum ItemTabuleiro{
-		X("X"),
-		O("O"),
-		VAZIO(" ");
-		
-		public final String valorString;
-		
-		ItemTabuleiro(String valorStr){
-			this.valorString = valorStr;
-		}
-		
-	}
 
 	ItemTabuleiro[][] tabuleiro = new ItemTabuleiro[3][3];
 	private static String response;
@@ -45,11 +35,13 @@ public class JogoDaVelha {
 		
 		while (jogadas < 9 && !venceu) {
 			
-			String posicao = new String(receivePacket.getData(), 0, receivePacket.getLength());
-			int posicaoInt = Integer.parseInt(posicao);
+			//String posicao = new String(receivePacket.getData(), 0, receivePacket.getLength());
+			Jogada jogada = EnvioDePacote.receberJogada(receivePacket);
 			
+//			int posicaoInt = Integer.parseInt(posicao);
+//			
 
-			if (jogadaValida(jogo, posicaoInt)) {
+			if (jogadaValida(jogo, jogada)) {
 				
 				if (jogadas % 2 == 0) {
 				    jogadorMapeado = jogadores.get(0);  // Jogador 'O'
@@ -57,7 +49,7 @@ public class JogoDaVelha {
 				    jogadorMapeado = jogadores.get(1);  // Jogador 'X'
 				}
 				
-				realizarJogada(jogo, posicaoInt, jogadorMapeado);
+				realizarJogada(jogo, jogada, jogadorMapeado);
 				
 				jogadas++;
 				
@@ -93,63 +85,68 @@ public class JogoDaVelha {
 		}
 	}
 
-	private static boolean jogadaValida(JogoDaVelha jogo, int posicao) {
-		switch (posicao) {
-		case 1:
-			return jogo.getTabuleiro()[0][0] == -1;
-		case 2:
-			return jogo.getTabuleiro()[0][1] == -1;
-		case 3:
-			return jogo.getTabuleiro()[0][2] == -1;
-		case 4:
-			return jogo.getTabuleiro()[1][0] == -1;
-		case 5:
-			return jogo.getTabuleiro()[1][1] == -1;
-		case 6:
-			return jogo.getTabuleiro()[1][2] == -1;
-		case 7:
-			return jogo.getTabuleiro()[2][0] == -1;
-		case 8:
-			return jogo.getTabuleiro()[2][1] == -1;
-		case 9:
-			return jogo.getTabuleiro()[2][2] == -1;
-		default:
-			return false;
-		}
+	private static boolean jogadaValida(JogoDaVelha jogo, Jogada jogada) {
+		
+		return jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO) ;		
+//		switch (posicao) {
+//		case 1:
+//			return jogo.getTabuleiro()[0][0] == -1;
+//		case 2:
+//			return jogo.getTabuleiro()[0][1] == -1;
+//		case 3:
+//			return jogo.getTabuleiro()[0][2] == -1;
+//		case 4:
+//			return jogo.getTabuleiro()[1][0] == -1;
+//		case 5:
+//			return jogo.getTabuleiro()[1][1] == -1;
+//		case 6:
+//			return jogo.getTabuleiro()[1][2] == -1;
+//		case 7:
+//			return jogo.getTabuleiro()[2][0] == -1;
+//		case 8:
+//			return jogo.getTabuleiro()[2][1] == -1;
+//		case 9:
+//			return jogo.getTabuleiro()[2][2] == -1;
+//		default:
+//			return false;
+//		}
 	}
 
-	private static void realizarJogada(JogoDaVelha jogo, int posicao, Jogador jogador) {
-		switch (posicao) {
-		case 1:
-			jogo.getTabuleiro()[0][0] = jogador.getId();
-			break;
-		case 2:
-			jogo.getTabuleiro()[0][1] = jogador.getId();
-			break;
-		case 3:
-			jogo.getTabuleiro()[0][2] = jogador.getId();
-			break;
-		case 4:
-			jogo.getTabuleiro()[1][0] = jogador.getId();
-			break;
-		case 5:
-			jogo.getTabuleiro()[1][1] = jogador.getId();
-			break;
-		case 6:
-			jogo.getTabuleiro()[1][2] = jogador.getId();
-			break;
-		case 7:
-			jogo.getTabuleiro()[2][0] = jogador.getId();
-			break;
-		case 8:
-			jogo.getTabuleiro()[2][1] = jogador.getId();
-			break;
-		case 9:
-			jogo.getTabuleiro()[2][2] = jogador.getId();
-			break;
-		default:
-			break;
-		}
+	private static void realizarJogada(JogoDaVelha jogo, Jogada jogada, Jogador jogador) {
+		
+		jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()] = 
+				ItemTabuleiro.mapearValorParaSimbolo(jogador.getId());
+//		switch (posicao) {
+//		case 1:
+//			jogo.getTabuleiro()[0][0] = jogador.getId();
+//			break;
+//		case 2:
+//			jogo.getTabuleiro()[0][1] = jogador.getId();
+//			break;
+//		case 3:
+//			jogo.getTabuleiro()[0][2] = jogador.getId();
+//			break;
+//		case 4:
+//			jogo.getTabuleiro()[1][0] = jogador.getId();
+//			break;
+//		case 5:
+//			jogo.getTabuleiro()[1][1] = jogador.getId();
+//			break;
+//		case 6:
+//			jogo.getTabuleiro()[1][2] = jogador.getId();
+//			break;
+//		case 7:
+//			jogo.getTabuleiro()[2][0] = jogador.getId();
+//			break;
+//		case 8:
+//			jogo.getTabuleiro()[2][1] = jogador.getId();
+//			break;
+//		case 9:
+//			jogo.getTabuleiro()[2][2] = jogador.getId();
+//			break;
+//		default:
+//			break;
+//		}
 
 	}
 
@@ -237,7 +234,7 @@ public class JogoDaVelha {
 		return tabuleiro;
 	}
 
-	public void setTabuleiro(int[][] tabuleiro) {
+	public void setTabuleiro(ItemTabuleiro[][] tabuleiro) {
 		this.tabuleiro = tabuleiro;
 	}
 }

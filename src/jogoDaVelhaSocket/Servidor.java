@@ -71,7 +71,7 @@ public class Servidor {
 				for(Jogador jogador : jogadoresMapeados.values()) {
 					if(jogador.getId() == 0) {
 						response = "Você será o primeiro jogador!";
-						String tabuleiroVazio = jogo.imprimirTabuleiro(jogo);
+						String tabuleiroVazio = JogoDaVelha.imprimirTabuleiro(jogo);
 						EnvioDePacote.enviarMensagem(serverSocket, tabuleiroVazio, InetAddress.getByName(jogador.getIp()), jogador.getPorta());
 						jogador.setSuaVez(true);
 					} else {
@@ -81,12 +81,11 @@ public class Servidor {
 					sendData = response.getBytes();
 					EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()), jogador.getPorta());
 					
-					
 				}
 
 				serverSocket.receive(receivePacket);
 				
-				JogoDaVelha.iniciar(serverSocket,  receivePacket, jogadoresMapeados, jogo);
+				JogoDaVelha.iniciar(serverSocket, receivePacket, jogadoresMapeados, jogo);
 			}
 		}
 	}
