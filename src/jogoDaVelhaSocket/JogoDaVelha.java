@@ -88,65 +88,13 @@ public class JogoDaVelha {
 	private static boolean jogadaValida(JogoDaVelha jogo, Jogada jogada) {
 		
 		return jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO) ;		
-//		switch (posicao) {
-//		case 1:
-//			return jogo.getTabuleiro()[0][0] == -1;
-//		case 2:
-//			return jogo.getTabuleiro()[0][1] == -1;
-//		case 3:
-//			return jogo.getTabuleiro()[0][2] == -1;
-//		case 4:
-//			return jogo.getTabuleiro()[1][0] == -1;
-//		case 5:
-//			return jogo.getTabuleiro()[1][1] == -1;
-//		case 6:
-//			return jogo.getTabuleiro()[1][2] == -1;
-//		case 7:
-//			return jogo.getTabuleiro()[2][0] == -1;
-//		case 8:
-//			return jogo.getTabuleiro()[2][1] == -1;
-//		case 9:
-//			return jogo.getTabuleiro()[2][2] == -1;
-//		default:
-//			return false;
-//		}
+
 	}
 
 	private static void realizarJogada(JogoDaVelha jogo, Jogada jogada, Jogador jogador) {
 		
 		jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()] = 
 				ItemTabuleiro.mapearValorParaSimbolo(jogador.getId());
-//		switch (posicao) {
-//		case 1:
-//			jogo.getTabuleiro()[0][0] = jogador.getId();
-//			break;
-//		case 2:
-//			jogo.getTabuleiro()[0][1] = jogador.getId();
-//			break;
-//		case 3:
-//			jogo.getTabuleiro()[0][2] = jogador.getId();
-//			break;
-//		case 4:
-//			jogo.getTabuleiro()[1][0] = jogador.getId();
-//			break;
-//		case 5:
-//			jogo.getTabuleiro()[1][1] = jogador.getId();
-//			break;
-//		case 6:
-//			jogo.getTabuleiro()[1][2] = jogador.getId();
-//			break;
-//		case 7:
-//			jogo.getTabuleiro()[2][0] = jogador.getId();
-//			break;
-//		case 8:
-//			jogo.getTabuleiro()[2][1] = jogador.getId();
-//			break;
-//		case 9:
-//			jogo.getTabuleiro()[2][2] = jogador.getId();
-//			break;
-//		default:
-//			break;
-//		}
 
 	}
 
@@ -198,16 +146,6 @@ public class JogoDaVelha {
 				 String item = jogo.getTabuleiro()[i][j].getSimbolo();
 		            stringBuilder.append(item);
 				
-				
-				/*if (jogo.getTabuleiro()[i][j] == -1) {
-					stringBuilder.append(jogo.getTabuleiro()[i][j].valorString);
-				} else if (jogo.getTabuleiro()[i][j] == 1) {
-					stringBuilder.append("X");
-				} else if (jogo.getTabuleiro()[i][j] == 0) {
-					stringBuilder.append("O");
-				} else {
-					stringBuilder.append(jogo.getTabuleiro()[i][j]);
-				}*/
 
 				if (j < 2)
 					stringBuilder.append(" | ");
