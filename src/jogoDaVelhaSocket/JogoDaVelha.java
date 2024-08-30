@@ -4,12 +4,25 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.HashMap;
 
-import jogoDaVelha.mensagem.EnvioDePacote;
-import jogoDaVelha.mensagem.FabricaDeMensagem;
+import jogoDaVelhaSocket.mensagem.EnvioDePacote;
+import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
 
 public class JogoDaVelha {
+	
+	enum ItemTabuleiro{
+		X("X"),
+		O("O"),
+		VAZIO(" ");
+		
+		public final String valorString;
+		
+		ItemTabuleiro(String valorStr){
+			this.valorString = valorStr;
+		}
+		
+	}
 
-	int[][] tabuleiro = new int[3][3];
+	ItemTabuleiro[][] tabuleiro = new ItemTabuleiro[3][3];
 	private static String response;
 	private static Jogador jogadorMapeado;
 	
@@ -17,7 +30,7 @@ public class JogoDaVelha {
 	public JogoDaVelha() {
 		for (int i = 0; i < this.tabuleiro.length; i++) {
 			for (int j = 0; j < this.tabuleiro[i].length; j++) {
-				this.tabuleiro[i][j] = -1;
+				this.tabuleiro[i][j] = ItemTabuleiro.VAZIO;
 			}
 		}
 	}
@@ -185,15 +198,17 @@ public class JogoDaVelha {
 
 		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
 			for (int j = 0; j < jogo.getTabuleiro()[i].length; j++) {
-				if (jogo.getTabuleiro()[i][j] == -1) {
-					stringBuilder.append(" ");
+				stringBuilder.append(jogo.getTabuleiro()[i][j].valorString);
+				
+				/*if (jogo.getTabuleiro()[i][j] == -1) {
+					stringBuilder.append(jogo.getTabuleiro()[i][j].valorString);
 				} else if (jogo.getTabuleiro()[i][j] == 1) {
 					stringBuilder.append("X");
 				} else if (jogo.getTabuleiro()[i][j] == 0) {
 					stringBuilder.append("O");
 				} else {
 					stringBuilder.append(jogo.getTabuleiro()[i][j]);
-				}
+				}*/
 
 				if (j < 2)
 					stringBuilder.append(" | ");
@@ -218,7 +233,7 @@ public class JogoDaVelha {
 		}
 	}
 
-	public int[][] getTabuleiro() {
+	public ItemTabuleiro[][] getTabuleiro() {
 		return tabuleiro;
 	}
 

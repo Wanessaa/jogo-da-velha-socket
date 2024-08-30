@@ -1,4 +1,4 @@
-package jogoDaVelha.mensagem;
+package jogoDaVelhaSocket.mensagem;
 
 import java.net.DatagramSocket;
 import java.net.InetAddress;

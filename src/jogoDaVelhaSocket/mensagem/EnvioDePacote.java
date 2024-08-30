@@ -1,4 +1,4 @@
-package jogoDaVelha.mensagem;
+package jogoDaVelhaSocket.mensagem;
 
 import java.io.IOException;
 import java.net.DatagramPacket;

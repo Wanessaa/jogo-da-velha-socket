@@ -6,7 +6,7 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
-import jogoDaVelha.mensagem.EnvioDePacote;
+import jogoDaVelhaSocket.mensagem.EnvioDePacote;
 
 
 public class Cliente {
