@@ -151,28 +151,28 @@ public class JogoDaVelha {
 	}
 
 	private static boolean verificarVitoria(JogoDaVelha jogo) {
-		int[][] tabuleiro = jogo.getTabuleiro();
+		ItemTabuleiro[][] tabuleiro = jogo.getTabuleiro();
 
 		// Verifica linhas
 		for (int i = 0; i < 3; i++) {
-			if (tabuleiro[i][0] != -1 && tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2]) {
+			if (tabuleiro[i][0] != ItemTabuleiro.VAZIO && tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2]) {
 				return true;
 			}
 		} 
 
 		// Verifica colunas
 		for (int i = 0; i < 3; i++) {
-			if (tabuleiro[0][i] != -1 && tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i]) {
+			if (tabuleiro[0][i] != ItemTabuleiro.VAZIO && tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i]) {
 				return true;
 			}
 		}
 
 		// Verifica diagonais
-		if (tabuleiro[0][0] != -1 && tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2]) {
+		if (tabuleiro[0][0] != ItemTabuleiro.VAZIO && tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2]) {
 			return true;
 		}
 
-		if (tabuleiro[0][2] != -1 && tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0]) {
+		if (tabuleiro[0][2] != ItemTabuleiro.VAZIO && tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0]) {
 			return true;
 		}
 
@@ -195,7 +195,9 @@ public class JogoDaVelha {
 
 		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
 			for (int j = 0; j < jogo.getTabuleiro()[i].length; j++) {
-				stringBuilder.append(jogo.getTabuleiro()[i][j].valorString);
+				 String item = jogo.getTabuleiro()[i][j].getSimbolo();
+		            stringBuilder.append(item);
+				
 				
 				/*if (jogo.getTabuleiro()[i][j] == -1) {
 					stringBuilder.append(jogo.getTabuleiro()[i][j].valorString);
