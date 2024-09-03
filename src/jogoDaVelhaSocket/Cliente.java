@@ -23,7 +23,7 @@ public class Cliente {
 		InetAddress ipAddress = InetAddress.getByName("localhost");
 		int port = 80;
 
-		System.out.println("Vamos de jogo da velha s/n?");
+		System.out.println("Deseja jogar o jogo da velha s/n?");
 		String sentence = keyboardReader.readLine();
 
 		EnvioDePacote.enviarMensagem(clientSocket, sentence, ipAddress, port);
