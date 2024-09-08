@@ -7,7 +7,8 @@ public enum StatusJogo {
 	jogadorVencedor(3),
 	jogoEmpatado(4),
 	jogoEncerrado(5),
-	jogadaInvalida(6);
+	jogadaInvalida(6),
+	jogoIniciado(7);
 	
 	
 

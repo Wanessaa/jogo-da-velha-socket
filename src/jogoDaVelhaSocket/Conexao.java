@@ -45,6 +45,11 @@ public class Conexao {
 		System.out.println("metodo enviar mensagem da classe conexao");
 	}
 	
+	 public void stop(){
+	        this.entrada.interrupt();
+	        this.saida.interrupt();
+	 }
+	
 	private class Recepcao extends Thread {
 		
 	    private final DatagramSocket socket;

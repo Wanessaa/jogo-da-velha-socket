@@ -14,6 +14,7 @@ import jogoDaVelhaSocket.utils.ConfiguracoesServidor;
 import jogoDaVelhaSocket.utils.FabricaDeMensagem;
 import jogoDaVelhaSocket.utils.Mensagem;
 import jogoDaVelhaSocket.utils.Pacote;
+import jogoDaVelhaSocket.utils.TipoDeMensagem;
 
 
 public class Cliente {
@@ -25,6 +26,7 @@ public class Cliente {
 	     System.out.println("Deseja jogar o jogo da velha s/n?");
 		 String sentence = reader.readLine();
 		 Mensagem mensagem = null;
+		 
 			
 			if (sentence.equalsIgnoreCase("s")) {
 				conexao.enviarMensagem(FabricaDeMensagem.criarMensagemIniciarJogador());
@@ -43,11 +45,49 @@ public class Cliente {
                 Thread.sleep(500);  // A pausa evita sobrecarregar o processador
                
             }else {
-            	switch(mensagem.getFields()[0]) {
-            		case 0:
-            			System.out.println("Esperando o outro jogador...\n");
-            			break;
+            	// Supondo que a mensagem contenha um inteiro correspondente ao enum.
+            	Object obj = mensagem.getFields()[0];
+
+            	// Verifique se o objeto é de fato um Integer.
+            	if (obj instanceof Integer) {
+            	    int valor = (Integer) obj;
+
+            	    // Faça o mapeamento do inteiro para o enum.
+            	    TipoDeMensagem tipoDeMensagem = TipoDeMensagem.values()[valor];
+
+            	    switch (tipoDeMensagem) {
+            	    case esperandoJogador:
+            	    	System.out.println("Esperando o outro jogador...\n");
+            	    	break;
+            	    case iniciarJogador:
+            	    	System.out.println("Iniciando o jogo...\n");
+            	    	break;
+            	    case jogoEncerrado:
+            	    	System.out.println("Jogo encerrado. ");
+            	    	conexao.stop();
+            	    	socket.close();
+            	    	break;
+            	    case vezDoJogador:
+            	    case entradaInvalida:
+            	    	System.out.println("Por favor, diga em qual linha deseja jogar. ");
+            	    	int linha = reader.read();
+            	    	System.out.println("Por favor, diga em qual coluna deseja jogar. ");
+            	    	int coluna = reader.read();
+            	    	Jogada jogada = new Jogada(linha, coluna);
+            	    	Object[] conteudoMensagem = {TipoDeMensagem.enviarJogada, jogada};
+            	    	Mensagem jogadaMensagem = new Mensagem(conteudoMensagem);
+            	    	conexao.enviarMensagem(jogadaMensagem);
+            	    	break;
+            	    case jogadoresProntos:
+            	    	System.out.println("O jogo está prestes a começar");
+            	    }
+         	          
+            	  
+            	} else {
+            	    System.out.println("Tipo inválido para conversão para enum.");
             	}
+
+
             }
 			
 		}
