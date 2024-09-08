@@ -9,13 +9,14 @@ import java.util.HashMap;
 import jogoDaVelhaSocket.mensagem.EnvioDePacote;
 import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
 import jogoDaVelhaSocket.utils.ItemTabuleiro;
+import jogoDaVelhaSocket.utils.StatusJogo;
 
 public class JogoDaVelha {
 
 	ItemTabuleiro[][] tabuleiro = new ItemTabuleiro[3][3];
 	private static String response;
 	private static Jogador jogadorMapeado;
-	
+	StatusJogo status = StatusJogo.esperandoJogador;
 
 	public JogoDaVelha() {
 		for (int i = 0; i < this.tabuleiro.length; i++) {

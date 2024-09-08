@@ -7,17 +7,17 @@ import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.util.concurrent.ArrayBlockingQueue;
 
-public class Broadcaster extends Thread {
+public class Transmissao extends Thread {
 	private final DatagramSocket socket;
 	private final Queue <Pacote> queue;
 	
-	public Broadcaster(DatagramSocket socket) {
+	public Transmissao(DatagramSocket socket) {
 		this.socket = socket;
 		this.queue = new ArrayBlockingQueue<>(10);
 		this.start();
 	}
 	
-	public void enviarPacote(Pacote pacote) {
+	public void transmitirPacote(Pacote pacote) {
 		this.queue.offer(pacote);
 	}
 	

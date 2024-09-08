@@ -1,6 +1,6 @@
 package jogoDaVelhaSocket.utils;
 
-public enum statusJogo {
+public enum StatusJogo {
 	
 	esperandoJogador(1),
 	esperandoJogada(2),
@@ -11,7 +11,7 @@ public enum statusJogo {
 	
 	
 
-	statusJogo(int valor) {
+	StatusJogo(int valor) {
 		// TODO Auto-generated constructor stub
 	}
 
