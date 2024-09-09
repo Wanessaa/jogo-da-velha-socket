@@ -75,7 +75,46 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
+	public static Mensagem criarMensagemJogadorVenceu() {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.jogadorVenceu.ordinal();
+
+		return msg;
+	}
 	
+	public static Mensagem criarMensagemJogoEmpatou() {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.jogoEmpatou.ordinal();
+
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemSuaVez() {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.suaVez.ordinal();
+
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemAguardeSuaVez() {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.aguardeSuaVez.ordinal();
+
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemTabuleiro(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.tabuleiro.ordinal();
+		msg.getFields()[1] = tabuleiro;
+
+		return msg;
+	}
 	
 	
 }

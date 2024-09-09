@@ -31,11 +31,11 @@ public class FabricaDeMensagem {
 	public static void enviarTabuleiroAosJogadores(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket, JogoDaVelha jogo) throws Exception {
 		String response;
 		
-		for(Jogador jogador : jogadores.values()) {
-			response = JogoDaVelha.imprimirTabuleiro(jogo);
-			EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
-					jogador.getPorta());
-		}
+//		for(Jogador jogador : jogadores.values()) {
+////			response = JogoDaVelha.imprimirTabuleiro(jogo);
+//			EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
+//					jogador.getPorta());
+//		}
 	}
 	
 	public static void enviarMensagemDeFimDeJogo(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,

@@ -42,7 +42,6 @@ public class Conexao {
 	
 	public synchronized void enviarMensagem(Mensagem mensagem){
 		this.saida.transmitirPacote(mensagem);
-		System.out.println("metodo enviar mensagem da classe conexao");
 	}
 	
 	 public void stop(){
@@ -102,7 +101,6 @@ public class Conexao {
 		}
 		
 		public void transmitirPacote(Mensagem msg) {
-			System.out.println("metodo transmitir  da classe conexao");
 			this.queue.offer(msg);
 		}
 		
@@ -114,15 +112,12 @@ public class Conexao {
                 if (!queue.isEmpty()) {
                     try {
                         Mensagem msg = queue.remove();
-                        System.out.println("mensagem do run de transmissao" + msg.getFields());
                         ByteArrayOutputStream byteOutStream = new ByteArrayOutputStream();
                         ObjectOutputStream objectOutStream = new ObjectOutputStream(byteOutStream);
                         objectOutStream.writeObject(msg);
                         byte[] objectData = byteOutStream.toByteArray();
 
                         DatagramPacket packet = new DatagramPacket(objectData, objectData.length, ip, porta);
-                        System.out.println("porta = "+ porta);
-                        System.out.println("ip = "+ ip);
 
                         this.socket.send(packet);
                     } catch (IOException e) {

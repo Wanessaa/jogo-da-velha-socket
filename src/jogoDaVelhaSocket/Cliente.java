@@ -80,7 +80,42 @@ public class Cliente {
             	    	break;
             	    case jogadoresProntos:
             	    	System.out.println("O jogo está prestes a começar");
+            	    	break;
+            	    case jogadorInicia:
+            	    	System.out.println("Você será o primeiro jogador");
+            	    	break;
+            	    case jogadorEspera:
+            	    	System.out.println("aguarde, o outro jogador será o primeiro");
+            	    	break;
+//           	    case jogadorVenceu:
+//           	    	if(mensagem.getFields()[1] instanceof String) {
+//        	    		String tabuleiro = (String) mensagem.getFields()[1];
+//        	    		System.out.println(tabuleiro);
+//        	    	}
+           	    	
+           	    	
+           	    	//break;
+            	    case jogoEmpatou:
+            	    	System.out.println("Jogo empatou");
+            	    	break;
+            	    case suaVez:
+            	    	System.out.println("Vamos lá, sua vez!");
+            	    	break;
+            	    case aguardeSuaVez:
+            	    	System.out.println("Aguarde, vez do outro jogador");
+            	    	break;
+            	    case tabuleiro:
+            	    	System.out.println("esta aqui");
+            	    	if(mensagem.getFields()[1] instanceof String) {
+            	    		String tabuleiro = (String) mensagem.getFields()[1];
+            	    		System.out.println("tabuleiro esta aqui " +tabuleiro);
+            	    	}
+            	    	
+            	    	
+            	    	break;
+            	    	
             	    }
+            	    
          	          
             	  
             	} else {

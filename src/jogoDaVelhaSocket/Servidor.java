@@ -1,4 +1,10 @@
 package jogoDaVelhaSocket;
+/**
+ * 
+ * implementar logica para aparecer a opção de jogada para os jogadas por vez 
+ * implementar o tabuleiro para aparecer antes da primeira jogada
+ * implementar o tabuleiro para os dois jogadores apos cada jogada
+ */
 
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
@@ -7,9 +13,11 @@ import java.util.HashMap;
 
 import jogoDaVelhaSocket.mensagem.EnvioDePacote;
 import jogoDaVelhaSocket.utils.FabricaDeMensagem;
+import jogoDaVelhaSocket.utils.Mensagem;
 import jogoDaVelhaSocket.utils.Pacote;
 import jogoDaVelhaSocket.utils.Recepcao;
 import jogoDaVelhaSocket.utils.StatusJogo;
+import jogoDaVelhaSocket.utils.TipoDeMensagem;
 import jogoDaVelhaSocket.utils.Transmissao;
 
 public class Servidor {
@@ -24,6 +32,8 @@ public class Servidor {
         Recepcao recepcao = new Recepcao(socket);
         Transmissao transmissao = new Transmissao(socket);
         JogoDaVelha jogo = new JogoDaVelha();
+
+        
         Pacote pacote = null;
 
         while (true) {
@@ -61,21 +71,50 @@ public class Servidor {
                                 jogo.status = StatusJogo.jogoIniciado;
                             }
                         }
+                        if (quantidadeDeJogadores == 2 ) {
+                        	for (Jogador jogador : jogadoresMapeados.values()) {
+                        		System.out.println(jogador.getId());
+                                if (jogador.getId() == 1) {
+                                	//quando é sua vez 
+                                    transmissao.transmitirPacote(new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), FabricaDeMensagem.criarMensagemJogadorInicia()));
+                                    String tabuleiroVazio = jogo.imprimirTabuleiro();
+                                    jogador.setSuaVez(true);
+                                } else {
+                                	//vez do proximo jogador
+                                    transmissao.transmitirPacote(new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), FabricaDeMensagem.criarMensagemJogadorEspera()));
+                                }
+                            }
+                        }
+                        
                         break;
 
                     case jogoIniciado:
-                        for (Jogador jogador : jogadoresMapeados.values()) {
-                            if (jogador.getId() == 0) {
-                                transmissao.transmitirPacote(new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), FabricaDeMensagem.criarMensagemJogadorInicia()));
-                                String tabuleiroVazio = JogoDaVelha.imprimirTabuleiro(jogo);
-                                jogador.setSuaVez(true);
-                            } else {
-                                transmissao.transmitirPacote(new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), FabricaDeMensagem.criarMensagemJogadorEspera()));
-                            }
+                    	pacote = recepcao.receberMensagem();
+                        if(jogo.quantidadeDejogadas < 9 && !jogo.venceu) {
+                        	
+                       	for (Jogador jogador : jogadoresMapeados.values()) {
+                       		transmissao.transmitirPacote(new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), FabricaDeMensagem.criarMensagemSuaVez()));
+//                        		String tabuleiro = jogo.imprimirTabuleiro();
+//                        		System.out.println(tabuleiro);
+//                        		System.out.println("qualquer coisa aí 3");
+//                        	 transmissao.transmitirPacote(new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), FabricaDeMensagem.criarMensagemTabuleiro(tabuleiro)));
+                        	}
+                        	System.out.println("qualquer coisa aí 1");
+                        	Jogada jogada = null;
+                            if (pacote != null) {
+                            	System.out.println("qualquer coisa aí 2");
+                            	
+                            	if (pacote.message().estaEnviandoJogada() && pacote.message().getFields()[1] instanceof Jogada) {
+                            		jogada = (Jogada) pacote.message().getFields()[1];
+                            		 transmissao.transmitirPacote(new Pacote(pacote.address(),pacote.port(), FabricaDeMensagem.criarMensagemTabuleiro(jogo.imprimirTabuleiro())));
+                                     Pacote pacoteJogada = jogo.executarJogada(jogada, pacote, jogadoresMapeados);
+                                     transmissao.transmitirPacote(pacoteJogada);
+                            	}
+                            	
+                            } 
+                        }else {
+                        	//jogo encerrado
                         }
-                        // Descomente e ajuste conforme necessário
-                        // serverSocket.receive(receivePacket);
-                        // JogoDaVelha.iniciar(serverSocket, receivePacket, jogadoresMapeados, jogo);
                         break;
                 }
             } catch (Exception e) {

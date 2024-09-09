@@ -4,12 +4,189 @@ import java.io.ByteArrayInputStream;
 import java.io.ObjectInputStream;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.util.HashMap;
 
 import jogoDaVelhaSocket.mensagem.EnvioDePacote;
-import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
+//import jogoDaVelhaSocket.mensagem.EnvioDePacote;
+//import jogoDaVelhaSocket.mensagem.EnvioDePacote;
+//import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
 import jogoDaVelhaSocket.utils.ItemTabuleiro;
+import jogoDaVelhaSocket.utils.Mensagem;
+import jogoDaVelhaSocket.utils.Pacote;
 import jogoDaVelhaSocket.utils.StatusJogo;
+import jogoDaVelhaSocket.utils.TipoDeMensagem;
+
+//public class JogoDaVelha {
+//
+//	ItemTabuleiro[][] tabuleiro = new ItemTabuleiro[3][3];
+//	private static String response;
+//	private static Jogador jogadorMapeado;
+//	StatusJogo status = StatusJogo.esperandoJogador;
+//
+//	public JogoDaVelha() {
+//		for (int i = 0; i < this.tabuleiro.length; i++) {
+//			for (int j = 0; j < this.tabuleiro[i].length; j++) {
+//				this.tabuleiro[i][j] = ItemTabuleiro.VAZIO;
+//			}
+//		}
+//	}
+//	
+//	
+//	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, HashMap<Integer, Jogador> jogadores,
+//			JogoDaVelha jogo) throws Exception {
+//
+//		int jogadas = 0;
+//		boolean venceu = false;
+//		
+//		
+//		while (jogadas < 9 && !venceu) {
+//			
+//			//String posicao = new String(receivePacket.getData(), 0, receivePacket.getLength());
+//			Jogada jogada = EnvioDePacote.receberJogada(receivePacket);
+//			
+////			int posicaoInt = Integer.parseInt(posicao);
+////			
+//
+//			if (jogadaValida(jogo, jogada)) {
+//				
+//				if (jogadas % 2 == 0) {
+//				    jogadorMapeado = jogadores.get(0);  // Jogador 'O'
+//				} else {
+//				    jogadorMapeado = jogadores.get(1);  // Jogador 'X'
+//				}
+//				
+//				realizarJogada(jogo, jogada, jogadorMapeado);
+//				
+//				jogadas++;
+//				
+//				venceu = verificarVitoria(jogo);
+//				
+//				if (jogadas == 9) {
+//					response = "============ FIM DE JOGO ==========\n"
+//							+ "O jogo empatou";
+//					FabricaDeMensagem.enviarMensagemDeFimDeJogo(jogadores, serverSocket, jogo, response);
+//					serverSocket.close();
+//				} 
+//				else if(venceu) {
+//					int jogadorVencedor = informarQuemEOVencedor(jogadores);
+//					String vencedor = jogadorVencedor == 1 ? "X" : "O";
+//					
+//					response = "============ FIM DE JOGO ==========\n"
+//							+ "O jogador " + vencedor + " venceu a partida.\n ==== TABULEIRO FINAL ====";
+//					
+//					FabricaDeMensagem.enviarMensagemDeFimDeJogo(jogadores, serverSocket, jogo, response);
+//
+//					serverSocket.close();
+//				}
+//				else {
+//					trocarJogador(jogadores, serverSocket);
+//					FabricaDeMensagem.enviarMensagemDeJogadas(jogadores, serverSocket, jogo);
+//					serverSocket.receive(receivePacket);
+//				}
+//			} else {
+//				response = "Posição inválida. Tente novamente.";
+//				EnvioDePacote.enviarMensagem(serverSocket, response, receivePacket.getAddress(), receivePacket.getPort());
+//				serverSocket.receive(receivePacket);
+//			}
+//		}
+//	}
+//
+//	private static boolean jogadaValida(JogoDaVelha jogo, Jogada jogada) {
+//		
+//		return jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO) ;		
+//
+//	}
+//
+//	private static void realizarJogada(JogoDaVelha jogo, Jogada jogada, Jogador jogador) {
+//		
+//		jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()] = 
+//				ItemTabuleiro.mapearValorParaSimbolo(jogador.getId());
+//
+//	}
+//
+//	private static boolean verificarVitoria(JogoDaVelha jogo) {
+//		ItemTabuleiro[][] tabuleiro = jogo.getTabuleiro();
+//
+//		// Verifica linhas
+//		for (int i = 0; i < 3; i++) {
+//			if (tabuleiro[i][0] != ItemTabuleiro.VAZIO && tabuleiro[i][0] == tabuleiro[i][1] && tabuleiro[i][1] == tabuleiro[i][2]) {
+//				return true;
+//			}
+//		} 
+//
+//		// Verifica colunas
+//		for (int i = 0; i < 3; i++) {
+//			if (tabuleiro[0][i] != ItemTabuleiro.VAZIO && tabuleiro[0][i] == tabuleiro[1][i] && tabuleiro[1][i] == tabuleiro[2][i]) {
+//				return true;
+//			}
+//		}
+//
+//		// Verifica diagonais
+//		if (tabuleiro[0][0] != ItemTabuleiro.VAZIO && tabuleiro[0][0] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][2]) {
+//			return true;
+//		}
+//
+//		if (tabuleiro[0][2] != ItemTabuleiro.VAZIO && tabuleiro[0][2] == tabuleiro[1][1] && tabuleiro[1][1] == tabuleiro[2][0]) {
+//			return true;
+//		}
+//
+//		return false;
+//	}
+//
+//	private static int informarQuemEOVencedor(HashMap<Integer, Jogador> jogadores) {
+//		int jogadorVencedor = -1;
+//		for(Jogador jogador : jogadores.values()) {
+//			if(jogador.isSuaVez() == true) {
+//				return jogadorVencedor = jogador.getId();
+//			}
+//		}
+//		return jogadorVencedor;
+//	}
+//	
+//	public static String imprimirTabuleiro(JogoDaVelha jogo) {
+//		StringBuilder stringBuilder = new StringBuilder();
+//		stringBuilder.append("\n");
+//
+//		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
+//			for (int j = 0; j < jogo.getTabuleiro()[i].length; j++) {
+//				 String item = jogo.getTabuleiro()[i][j].getSimbolo();
+//		            stringBuilder.append(item);
+//				
+//
+//				if (j < 2)
+//					stringBuilder.append(" | ");
+//			}
+//			System.out.println();
+//			if (i < 2)
+//				stringBuilder.append("\n---------\n");
+//		}
+//		stringBuilder.append("\n");
+//		return stringBuilder.toString();
+//	}
+//	
+//	private static void trocarJogador(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket)
+//			throws Exception {
+//
+//		for(Jogador jogador : jogadores.values()) {
+//			if(jogador.isSuaVez() == true) {
+//				jogador.setSuaVez(false);
+//			} else {
+//				jogador.setSuaVez(true);
+//			}
+//		}
+//	}
+//
+//	public ItemTabuleiro[][] getTabuleiro() {
+//		return tabuleiro;
+//	}
+//
+//	public void setTabuleiro(ItemTabuleiro[][] tabuleiro) {
+//		this.tabuleiro = tabuleiro;
+//	}
+//}
+
+
 
 public class JogoDaVelha {
 
@@ -17,6 +194,8 @@ public class JogoDaVelha {
 	private static String response;
 	private static Jogador jogadorMapeado;
 	StatusJogo status = StatusJogo.esperandoJogador;
+	int quantidadeDejogadas = 0;
+	boolean venceu = false;
 
 	public JogoDaVelha() {
 		for (int i = 0; i < this.tabuleiro.length; i++) {
@@ -27,22 +206,11 @@ public class JogoDaVelha {
 	}
 	
 	
-	public static void iniciar(DatagramSocket serverSocket, DatagramPacket receivePacket, HashMap<Integer, Jogador> jogadores,
-			JogoDaVelha jogo) throws Exception {
+	public Pacote executarJogada(Jogada jogada,Pacote dadosCliente, HashMap<Integer, Jogador> jogadores) throws Exception {
 
 		int jogadas = 0;
 		boolean venceu = false;
-		
-		
-		while (jogadas < 9 && !venceu) {
-			
-			//String posicao = new String(receivePacket.getData(), 0, receivePacket.getLength());
-			Jogada jogada = EnvioDePacote.receberJogada(receivePacket);
-			
-//			int posicaoInt = Integer.parseInt(posicao);
-//			
-
-			if (jogadaValida(jogo, jogada)) {
+			if (jogadaValida(jogada)) {
 				
 				if (jogadas % 2 == 0) {
 				    jogadorMapeado = jogadores.get(0);  // Jogador 'O'
@@ -50,17 +218,21 @@ public class JogoDaVelha {
 				    jogadorMapeado = jogadores.get(1);  // Jogador 'X'
 				}
 				
-				realizarJogada(jogo, jogada, jogadorMapeado);
+				realizarJogada( jogada, jogadorMapeado);
 				
 				jogadas++;
 				
-				venceu = verificarVitoria(jogo);
+				venceu = verificarVitoria();
 				
 				if (jogadas == 9) {
 					response = "============ FIM DE JOGO ==========\n"
 							+ "O jogo empatou";
-					FabricaDeMensagem.enviarMensagemDeFimDeJogo(jogadores, serverSocket, jogo, response);
-					serverSocket.close();
+					
+					for (Jogador jogador : jogadores.values()) {
+						Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.jogoEmpatou});
+						return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
+					}
+					
 				} 
 				else if(venceu) {
 					int jogadorVencedor = informarQuemEOVencedor(jogadores);
@@ -69,38 +241,79 @@ public class JogoDaVelha {
 					response = "============ FIM DE JOGO ==========\n"
 							+ "O jogador " + vencedor + " venceu a partida.\n ==== TABULEIRO FINAL ====";
 					
-					FabricaDeMensagem.enviarMensagemDeFimDeJogo(jogadores, serverSocket, jogo, response);
-
-					serverSocket.close();
+					for (Jogador jogador : jogadores.values()) {
+						Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.jogadorVenceu, vencedor});
+						return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
+					}
 				}
 				else {
-					trocarJogador(jogadores, serverSocket);
-					FabricaDeMensagem.enviarMensagemDeJogadas(jogadores, serverSocket, jogo);
-					serverSocket.receive(receivePacket);
+					trocarJogador(jogadores);
+					
+					String response;
+					//enviarTabuleiroAosJogadores(jogadores, serverSocket, jogo);
+					
+					for (Jogador jogador : jogadores.values()) {
+						if (jogador.isSuaVez() == true) {
+							Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.suaVez});
+							return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
+							
+							
+						} else {
+							Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.aguardeSuaVez});
+							return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
+							
+							
+						}
+					}
+					
 				}
 			} else {
-				response = "Posição inválida. Tente novamente.";
-				EnvioDePacote.enviarMensagem(serverSocket, response, receivePacket.getAddress(), receivePacket.getPort());
-				serverSocket.receive(receivePacket);
+				Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.jogadaInvalida});
+				return new Pacote(dadosCliente.address(), dadosCliente.port(), mensagem);
+				
 			}
+		
+			Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.jogadaInvalida});
+			return new Pacote(dadosCliente.address(), dadosCliente.port(), mensagem);
+	}
+
+	public void enviarMensagemDeFimDeJogo(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,
+			 String response) throws Exception {
+
+		for (Jogador jogador : jogadores.values()) {
+			EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
+					jogador.getPorta());
+		}
+
+		enviarTabuleiroAosJogadores(jogadores, serverSocket);
+	}
+	
+	public void enviarTabuleiroAosJogadores(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket) throws Exception {
+		String response;
+		
+		for(Jogador jogador : jogadores.values()) {
+			response = this.imprimirTabuleiro();
+			EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
+					jogador.getPorta());
 		}
 	}
-
-	private static boolean jogadaValida(JogoDaVelha jogo, Jogada jogada) {
+	
+	
+	private boolean jogadaValida(Jogada jogada) {
 		
-		return jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO) ;		
+		return this.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO) ;		
 
 	}
 
-	private static void realizarJogada(JogoDaVelha jogo, Jogada jogada, Jogador jogador) {
+	private void realizarJogada(Jogada jogada, Jogador jogador) {
 		
-		jogo.getTabuleiro()[jogada.getLinha()][jogada.getColuna()] = 
+		this.getTabuleiro()[jogada.getLinha()][jogada.getColuna()] = 
 				ItemTabuleiro.mapearValorParaSimbolo(jogador.getId());
 
 	}
 
-	private static boolean verificarVitoria(JogoDaVelha jogo) {
-		ItemTabuleiro[][] tabuleiro = jogo.getTabuleiro();
+	private boolean verificarVitoria() {
+		ItemTabuleiro[][] tabuleiro = this.getTabuleiro();
 
 		// Verifica linhas
 		for (int i = 0; i < 3; i++) {
@@ -128,7 +341,7 @@ public class JogoDaVelha {
 		return false;
 	}
 
-	private static int informarQuemEOVencedor(HashMap<Integer, Jogador> jogadores) {
+	private int informarQuemEOVencedor(HashMap<Integer, Jogador> jogadores) {
 		int jogadorVencedor = -1;
 		for(Jogador jogador : jogadores.values()) {
 			if(jogador.isSuaVez() == true) {
@@ -138,13 +351,13 @@ public class JogoDaVelha {
 		return jogadorVencedor;
 	}
 	
-	public static String imprimirTabuleiro(JogoDaVelha jogo) {
+	public String imprimirTabuleiro() {
 		StringBuilder stringBuilder = new StringBuilder();
 		stringBuilder.append("\n");
 
-		for (int i = 0; i < jogo.getTabuleiro().length; i++) {
-			for (int j = 0; j < jogo.getTabuleiro()[i].length; j++) {
-				 String item = jogo.getTabuleiro()[i][j].getSimbolo();
+		for (int i = 0; i < this.getTabuleiro().length; i++) {
+			for (int j = 0; j < this.getTabuleiro()[i].length; j++) {
+				 String item = this.getTabuleiro()[i][j].getSimbolo();
 		            stringBuilder.append(item);
 				
 
@@ -159,7 +372,7 @@ public class JogoDaVelha {
 		return stringBuilder.toString();
 	}
 	
-	private static void trocarJogador(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket)
+	private void trocarJogador(HashMap<Integer, Jogador> jogadores)
 			throws Exception {
 
 		for(Jogador jogador : jogadores.values()) {

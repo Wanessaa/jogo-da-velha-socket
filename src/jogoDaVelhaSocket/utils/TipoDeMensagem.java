@@ -10,6 +10,11 @@ public enum TipoDeMensagem {
 	entradaInvalida,
 	jogadoresProntos,
 	jogadorInicia,
-	jogadorEspera
+	jogadorEspera,
+	jogoEmpatou,
+	jogadorVenceu,
+	suaVez,
+	aguardeSuaVez,
+	tabuleiro
 	
 }
