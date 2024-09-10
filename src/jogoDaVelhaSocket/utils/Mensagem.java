@@ -11,17 +11,6 @@ public class Mensagem implements Serializable {
         this.fields = fields;
     }
 
-//    public int[] getFields() {
-//        return this.fields;
-//    }
-//    
-//    public boolean estaEsperandoOutroJogador() {
-//    	return this.fields[0] == TipoDeMensagem.esperandoJogador.ordinal();
-//    }
-//    
-//    public boolean estaIniciandoOutroJogador() {
-//    	return this.fields[0] == TipoDeMensagem.iniciarJogador.ordinal();
-//    }
     public Object[] getFields() {
     	return this.fields;
     }

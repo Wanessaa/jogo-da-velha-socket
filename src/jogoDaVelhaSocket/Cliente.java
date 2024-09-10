@@ -23,6 +23,7 @@ public class Cliente {
 		 DatagramSocket socket = new DatagramSocket();
 	     Conexao conexao = new Conexao(socket, InetAddress.getByName(ConfiguracoesServidor.ENDERECO_SERVIDOR), ConfiguracoesServidor.PORTA_SERVIDOR);
 	     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//	     Scanner scanner = new Scanner(System.in);
 	     System.out.println("Deseja jogar o jogo da velha s/n?");
 		 String sentence = reader.readLine();
 		 Mensagem mensagem = null;
@@ -69,12 +70,14 @@ public class Cliente {
             	    	break;
             	    case vezDoJogador:
             	    case entradaInvalida:
+            	    case suaVez:
+            	    	System.out.println("Vamos lá, sua vez! 1");
             	    	System.out.println("Por favor, diga em qual linha deseja jogar. ");
             	    	int linha = reader.read();
             	    	System.out.println("Por favor, diga em qual coluna deseja jogar. ");
             	    	int coluna = reader.read();
             	    	Jogada jogada = new Jogada(linha, coluna);
-            	    	Object[] conteudoMensagem = {TipoDeMensagem.enviarJogada, jogada};
+            	    	Object[] conteudoMensagem = {TipoDeMensagem.enviarJogada.ordinal(), jogada};
             	    	Mensagem jogadaMensagem = new Mensagem(conteudoMensagem);
             	    	conexao.enviarMensagem(jogadaMensagem);
             	    	break;
@@ -82,7 +85,15 @@ public class Cliente {
             	    	System.out.println("O jogo está prestes a começar");
             	    	break;
             	    case jogadorInicia:
-            	    	System.out.println("Você será o primeiro jogador");
+            	    	System.out.println("Vamos lá, sua vez 2!");
+            	    	System.out.println("Por favor, diga em qual linha deseja jogar. ");
+            	    	int linha2 = reader.read();
+            	    	System.out.println("Por favor, diga em qual coluna deseja jogar. ");
+            	    	int coluna2 = reader.read();
+            	    	Jogada jogada2 = new Jogada(linha2, coluna2);
+            	    	Object[] conteudoMensagem2 = {TipoDeMensagem.enviarJogada.ordinal(), jogada2};
+            	    	Mensagem jogadaMensagem2 = new Mensagem(conteudoMensagem2);
+            	    	conexao.enviarMensagem(jogadaMensagem2);
             	    	break;
             	    case jogadorEspera:
             	    	System.out.println("aguarde, o outro jogador será o primeiro");
@@ -97,9 +108,6 @@ public class Cliente {
            	    	//break;
             	    case jogoEmpatou:
             	    	System.out.println("Jogo empatou");
-            	    	break;
-            	    case suaVez:
-            	    	System.out.println("Vamos lá, sua vez!");
             	    	break;
             	    case aguardeSuaVez:
             	    	System.out.println("Aguarde, vez do outro jogador");

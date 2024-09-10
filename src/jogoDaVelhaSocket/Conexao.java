@@ -90,6 +90,12 @@ public class Conexao {
 	    }
 	}
 	
+	
+	
+	
+	
+	
+	
 	public class Transmissao extends Thread {
 		private final DatagramSocket socket;
 		private final Queue <Mensagem> queue;

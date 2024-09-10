@@ -9,17 +9,16 @@ import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
 
-// reepcao é p o servidor se comunicar com o cliente
+// recepcao é p o servidor se comunicar com o cliente
 public class Recepcao extends Thread {
 	
     private final DatagramSocket socket;
     private final Queue<Pacote> fila;
 
     public Recepcao(DatagramSocket socket) {
-    	System.out.println("era p pegar");
+    	
         this.socket = socket;
         this.fila = new ArrayBlockingQueue<>(10);
-        System.out.println("iniciar thread da recepcao");
         this.start();
     }
 
@@ -55,13 +54,6 @@ public class Recepcao extends Thread {
     
     public synchronized Pacote receberMensagem() {
         Pacote pacote = this.fila.poll();
-        
-        if (pacote != null) {
-          //  System.out.println("Recebeu o pacote: " + pacote.message().getFields()[0]);
-        } else {
-          //  System.out.println("Fila vazia, nenhum pacote disponível.");
-        }
-        
         return pacote;
     }
 
