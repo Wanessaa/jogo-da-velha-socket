@@ -218,7 +218,7 @@ public class JogoDaVelha {
 				    jogadorMapeado = jogadores.get(1);  // Jogador 'X'
 				}
 				
-				realizarJogada( jogada, jogadorMapeado);
+				realizarJogada(jogada, jogadorMapeado);
 				
 				jogadas++;
 				
@@ -256,13 +256,9 @@ public class JogoDaVelha {
 						if (jogador.isSuaVez() == true) {
 							Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.suaVez});
 							return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
-							
-							
 						} else {
 							Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.aguardeSuaVez});
 							return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
-							
-							
 						}
 					}
 					

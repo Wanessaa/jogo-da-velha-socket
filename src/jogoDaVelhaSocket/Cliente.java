@@ -23,7 +23,7 @@ public class Cliente {
 		 DatagramSocket socket = new DatagramSocket();
 	     Conexao conexao = new Conexao(socket, InetAddress.getByName(ConfiguracoesServidor.ENDERECO_SERVIDOR), ConfiguracoesServidor.PORTA_SERVIDOR);
 	     BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//	     Scanner scanner = new Scanner(System.in);
+	     Scanner scanner = new Scanner(System.in);
 	     System.out.println("Deseja jogar o jogo da velha s/n?");
 		 String sentence = reader.readLine();
 		 Mensagem mensagem = null;
@@ -68,7 +68,7 @@ public class Cliente {
             	    	conexao.stop();
             	    	socket.close();
             	    	break;
-            	    case vezDoJogador:
+            	   // case vezDoJogador:
             	    case entradaInvalida:
             	    case suaVez:
             	    	System.out.println("Vamos lá, sua vez! 1");
@@ -87,16 +87,17 @@ public class Cliente {
             	    case jogadorInicia:
             	    	System.out.println("Vamos lá, sua vez 2!");
             	    	System.out.println("Por favor, diga em qual linha deseja jogar. ");
-            	    	int linha2 = reader.read();
+            	    	int linha2 = scanner.nextInt();
             	    	System.out.println("Por favor, diga em qual coluna deseja jogar. ");
-            	    	int coluna2 = reader.read();
+            	    	int coluna2 = scanner.nextInt();
             	    	Jogada jogada2 = new Jogada(linha2, coluna2);
+            	    	
             	    	Object[] conteudoMensagem2 = {TipoDeMensagem.enviarJogada.ordinal(), jogada2};
             	    	Mensagem jogadaMensagem2 = new Mensagem(conteudoMensagem2);
             	    	conexao.enviarMensagem(jogadaMensagem2);
             	    	break;
             	    case jogadorEspera:
-            	    	System.out.println("aguarde, o outro jogador será o primeiro");
+            	    	System.out.println("Aguarde, o outro jogador será o primeiro");
             	    	break;
 //           	    case jogadorVenceu:
 //           	    	if(mensagem.getFields()[1] instanceof String) {
@@ -108,6 +109,7 @@ public class Cliente {
            	    	//break;
             	    case jogoEmpatou:
             	    	System.out.println("Jogo empatou");
+            	   
             	    	break;
             	    case aguardeSuaVez:
             	    	System.out.println("Aguarde, vez do outro jogador");
@@ -118,8 +120,6 @@ public class Cliente {
             	    		String tabuleiro = (String) mensagem.getFields()[1];
             	    		System.out.println("tabuleiro esta aqui " +tabuleiro);
             	    	}
-            	    	
-            	    	
             	    	break;
             	    	
             	    }
