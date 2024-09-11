@@ -51,16 +51,17 @@ public class Cliente {
 
 					// Esta esperando os 2 jogadores iniciarem o jogo
 					case ESPERANDO_JOGADORES:
-						System.out.println("ESPERANDO_JOGADORES");
+						System.out.println("Esperando jogadores se conectarem...");
 						break;
 
 						// Os 2 jogadores estao conectados
 					case JOGO_INICIADO:
-						System.out.println("JOGO_INICIADO");
-						System.out.println(mensagem.getTabuleiro());
+						System.out.println("JOGO INICIADO");
+						
 						break;
 
 					case JOGADOR_FAZ_JOGADA:
+						System.out.println(mensagem.getTabuleiro());
 						System.out.println("Vamos lá, sua vez!");
 						System.out.println("Por favor, diga em qual linha deseja jogar. ");
 						int linha = scanner.nextInt();
@@ -71,7 +72,6 @@ public class Cliente {
 						Object[] conteudoMensagem = {TipoDeMensagem.ENVIANDO_JOGADA.ordinal(), jogada};
 						Mensagem jogadaMensagem = new Mensagem(conteudoMensagem);
 						conexao.enviarMensagem(jogadaMensagem);
-						System.out.println(mensagem.getTabuleiro());
 						break;
 
 					case JOGADOR_ESPERA:
@@ -97,7 +97,7 @@ public class Cliente {
 						break;
 					}
 				} else {
-					System.out.println("Tipo inválido para conversão para enum.");
+					System.out.println("Tipo inv�lido para convers�o para enum.");
 				}
 
 

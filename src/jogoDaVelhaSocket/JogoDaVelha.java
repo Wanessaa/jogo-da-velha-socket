@@ -56,7 +56,6 @@ public class JogoDaVelha {
 				venceu = verificarVitoria();
 				
 				if (jogadas == 9) {
-					
 //					for (Jogador jogador : jogadoresMapeados.values()) {
 //						Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.JOGO_ENCERRADO_EMPATOU.ordinal()});
 //						return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
@@ -101,8 +100,11 @@ public class JogoDaVelha {
 	            .orElseThrow(() -> new NoSuchElementException("Nenhum jogador com SuaVez = false"));
 	}
 
-	private boolean jogadaValida(Jogada jogada) {	
-		return this.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO) ;
+	private boolean jogadaValida(Jogada jogada) {
+		
+		
+		
+		return this.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO);
 	}
 
 	private void realizarJogada(Jogada jogada, Jogador jogador) {

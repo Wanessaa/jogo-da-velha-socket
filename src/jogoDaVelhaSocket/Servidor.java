@@ -81,7 +81,7 @@ public class Servidor {
 					}
 					
 					if (jogo.quantidadeDejogadas < 9 && !jogo.venceu) {
-
+						jogo.quantidadeDejogadas += 1;
 						jogo.status = StatusJogo.JOGO_ESPERANDO_JOGADA;
 					} 
 
@@ -111,13 +111,16 @@ public class Servidor {
 												FabricaDeMensagem.criarMensagemJogoEncerradoEmpatou(jogo.imprimirTabuleiro())));
 								jogo.status = StatusJogo.JOGO_ENCERRADO;
 								break;
+							} else {
+								
+								transmissao.transmitirPacote(
+										new Pacote(InetAddress.getByName(jogo.jogadorQuePodeJogar().getIp()), jogo.jogadorQuePodeJogar().getPorta(),
+												FabricaDeMensagem.getMensagemJogadorFazJogada(jogo.imprimirTabuleiro())));
 							}
 							
-							transmissao.transmitirPacote(
-										new Pacote(InetAddress.getByName(jogo.jogadorQuePodeJogar().getIp()), jogo.jogadorQuePodeJogar().getPorta(),
-												FabricaDeMensagem.criarMensagemJogadorEspera(jogo.imprimirTabuleiro())));
 							
 							jogo.status = StatusJogo.JOGO_INICIADO;
+							break;
 						}
 					}
 
