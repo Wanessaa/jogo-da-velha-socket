@@ -18,10 +18,12 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemJogoEncerrado(String tabuleiro) {
+	public static Mensagem criarMensagemJogoEncerradoVenceu(String tabuleiro, String vencedor) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
-		msg.getFields()[0] = TipoDeMensagem.jogoEncerrado.ordinal();
+		msg.getFields()[0] = TipoDeMensagem.JOGO_ENCERRADO_VENCEU.ordinal();
+		msg.getFields()[1] = vencedor;
+		msg.getFields()[2] = tabuleiro;
 
 		return msg;
 	}

@@ -66,7 +66,6 @@ public class Cliente {
 
 					case JOGADOR_FAZ_JOGADA:
 
-
 						System.out.println("Vamos lá, sua vez! 1");
 						System.out.println("Por favor, diga em qual linha deseja jogar. ");
 						int linha = scanner.nextInt();
@@ -88,9 +87,13 @@ public class Cliente {
 						break;
 
 						// O jogo foi encerrado
-					case JOGO_ENCERRADO:
-						System.out.println("JOGO_ENCERRADO");
+					case JOGO_ENCERRADO_VENCEU:
+						String msg = (String) mensagem.getFields()[1];
+						System.out.println("O jogo encerrou!\nO jogador " + msg + " venceu.");
 						break;
+					
+					//case JOGO_ENCERRADO_EMPATE:
+						
 					default:
 						System.out.println("ACABOU");
 						break;

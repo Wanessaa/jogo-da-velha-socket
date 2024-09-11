@@ -33,4 +33,8 @@ public class Mensagem implements Serializable {
     public boolean estaEnviandoJogada() {
     	return (int) this.fields[0] == TipoDeMensagem.enviarJogada.ordinal();
     }
+    
+    public boolean jogoEncerrouVenceu() {
+    	return (int) this.fields[0] == TipoDeMensagem.JOGO_ENCERRADO_VENCEU.ordinal();
+    }
 }

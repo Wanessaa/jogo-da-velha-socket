@@ -58,6 +58,7 @@ public class JogoDaVelha {
 				}
 				
 				realizarJogada(jogada, jogadorMapeado);
+				trocarJogador(jogadoresMapeados);
 				
 				jogadas++;
 				
@@ -75,18 +76,22 @@ public class JogoDaVelha {
 				} 
 				else if(venceu) {
 					int jogadorVencedor = informarQuemEOVencedor(jogadoresMapeados);
+					System.out.println("EU SOU QUEM GANHOU " + jogadorVencedor);
 					String vencedor = jogadorVencedor == 1 ? "X" : "O";
+//					
+//					response = "============ FIM DE JOGO ==========\n"
+//							+ "O jogador " + vencedor + " venceu a partida.\n ==== TABULEIRO FINAL ====";
+//					
+//					for (Jogador jogador : jogadoresMapeados.values()) {
+//						return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), 
+//								FabricaDeMensagem.criarMensagemJogoEncerradoVenceu(this.imprimirTabuleiro(), vencedor));
+//					}
 					
-					response = "============ FIM DE JOGO ==========\n"
-							+ "O jogador " + vencedor + " venceu a partida.\n ==== TABULEIRO FINAL ====";
 					
-					for (Jogador jogador : jogadoresMapeados.values()) {
-						Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.jogadorVenceu, vencedor});
-						return new Pacote(InetAddress.getByName(jogador.getIp()), jogador.getPorta(), mensagem);
-					}
+					return new Pacote(InetAddress.getByName(this.jogadorQueVaiEsperar().getIp()), this.jogadorQueVaiEsperar().getPorta(),
+									FabricaDeMensagem.criarMensagemJogoEncerradoVenceu(this.imprimirTabuleiro(), vencedor));
 				}
 				else {
-					trocarJogador(jogadoresMapeados);
 					
 					return new Pacote(InetAddress.getByName(this.jogadorQueVaiEsperar().getIp()), this.jogadorQueVaiEsperar().getPorta(),
 									FabricaDeMensagem.getMensagemJogadorEspera(this.imprimirTabuleiro()));
@@ -122,6 +127,7 @@ public class JogoDaVelha {
 	            .orElseThrow(() -> new NoSuchElementException("Nenhum jogador com SuaVez = false"));
 	}
 
+	//apagar metodo
 	public void enviarMensagemDeFimDeJogo(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,
 			 String response) throws Exception {
 
@@ -133,6 +139,7 @@ public class JogoDaVelha {
 		enviarTabuleiroAosJogadores(jogadores, serverSocket);
 	}
 	
+	//apagar metodo
 	public void enviarTabuleiroAosJogadores(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket) throws Exception {
 		String response;
 		
@@ -187,11 +194,16 @@ public class JogoDaVelha {
 	private int informarQuemEOVencedor(HashMap<Integer, Jogador> jogadores) {
 		int jogadorVencedor = -1;
 		for(Jogador jogador : jogadoresMapeados.values()) {
-			if(jogador.isSuaVez() == true) {
+			if(jogador.isSuaVez() == false) {
 				return jogadorVencedor = jogador.getId();
 			}
 		}
 		return jogadorVencedor;
+	}
+	
+	public String informarQuemEOVencedor() {
+		int vencedor = informarQuemEOVencedor(jogadoresMapeados);
+		return vencedor == 1 ? "X" : "O";
 	}
 	
 	// PATO

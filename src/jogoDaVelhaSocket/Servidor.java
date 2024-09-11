@@ -125,8 +125,14 @@ public class Servidor {
 							Pacote pacoteJogada = jogo.executarJogada(jogada, pacote, jogo.jogadoresMapeados);
 							transmissao.transmitirPacote(pacoteJogada);
 							
-							 transmissao.transmitirPacote(
-										new Pacote(InetAddress.getByName(jogo.jogadorQueVaiEsperar().getIp()), jogo.jogadorQueVaiEsperar().getPorta(),
+							if(pacoteJogada.message().jogoEncerrouVenceu()) {
+								transmissao.transmitirPacote(
+										new Pacote(InetAddress.getByName(jogo.jogadorQuePodeJogar().getIp()), jogo.jogadorQuePodeJogar().getPorta(),
+												FabricaDeMensagem.criarMensagemJogoEncerradoVenceu(jogo.imprimirTabuleiro(), jogo.informarQuemEOVencedor())));
+							}
+							
+							transmissao.transmitirPacote(
+										new Pacote(InetAddress.getByName(jogo.jogadorQuePodeJogar().getIp()), jogo.jogadorQuePodeJogar().getPorta(),
 												FabricaDeMensagem.getMensagemJogadorEspera(jogo.imprimirTabuleiro())));
 							
 							jogo.status = StatusJogo.JOGO_INICIADO;
