@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Mensagem implements Serializable {
     private final Object[] fields;
-    public static final int MSG_SIZE = 2;
+    public static final int MSG_SIZE = 3;
     //
 
     public Mensagem(Object[] fields) {
@@ -13,6 +13,13 @@ public class Mensagem implements Serializable {
 
     public Object[] getFields() {
     	return this.fields;
+    }
+    
+    public String getTabuleiro() {
+    	if (this.fields[2] == null)
+    		return "";
+    	
+    	return (String) this.fields[2];
     }
 
     public boolean estaEsperandoOutroJogador() {

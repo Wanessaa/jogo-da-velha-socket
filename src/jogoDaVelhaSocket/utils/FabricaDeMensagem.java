@@ -1,10 +1,11 @@
 package jogoDaVelhaSocket.utils;
 
 public class FabricaDeMensagem {
-	public static Mensagem criarMensagemDeEsperandoJogador() {
+	public static Mensagem criarMensagemDeEsperandoJogador(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
-		msg.getFields()[0] = TipoDeMensagem.esperandoJogador.ordinal();
+		msg.getFields()[0] = TipoDeMensagem.ESPERANDO_JOGADORES.ordinal();
+		msg.getFields()[2] = tabuleiro;
 
 		return msg;
 	}
@@ -17,7 +18,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemJogoEncerrado() {
+	public static Mensagem criarMensagemJogoEncerrado(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.jogoEncerrado.ordinal();
@@ -26,7 +27,7 @@ public class FabricaDeMensagem {
 	}
 	
 	
-	public static Mensagem criarMensagemVezdoJogador() {
+	public static Mensagem criarMensagemVezdoJogador(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.vezDoJogador.ordinal();
@@ -34,7 +35,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemEnviarJogada() {
+	public static Mensagem criarMensagemEnviarJogada(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.enviarJogada.ordinal();
@@ -42,7 +43,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemEntradaInvalida() {
+	public static Mensagem criarMensagemEntradaInvalida(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.entradaInvalida.ordinal();
@@ -51,7 +52,7 @@ public class FabricaDeMensagem {
 	}
 	
 	
-	public static Mensagem criarMensagemJogadoresProntos() {
+	public static Mensagem criarMensagemJogadoresProntos(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.jogadoresProntos.ordinal();
@@ -59,7 +60,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemJogadorInicia() {
+	public static Mensagem criarMensagemJogadorInicia(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.jogadorInicia.ordinal();
@@ -67,7 +68,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemJogadorEspera() {
+	public static Mensagem criarMensagemJogadorEspera(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.jogadorEspera.ordinal();
@@ -75,7 +76,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemJogadorVenceu() {
+	public static Mensagem criarMensagemJogadorVenceu(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.jogadorVenceu.ordinal();
@@ -83,7 +84,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemJogoEmpatou() {
+	public static Mensagem criarMensagemJogoEmpatou(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.jogoEmpatou.ordinal();
@@ -91,7 +92,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemSuaVez() {
+	public static Mensagem criarMensagemSuaVez(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.suaVez.ordinal();
@@ -99,7 +100,7 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
-	public static Mensagem criarMensagemAguardeSuaVez() {
+	public static Mensagem criarMensagemAguardeSuaVez(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
 		msg.getFields()[0] = TipoDeMensagem.aguardeSuaVez.ordinal();
@@ -116,6 +117,47 @@ public class FabricaDeMensagem {
 		return msg;
 	}
 	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	public static Mensagem getMensagemJogoIniciado(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
+		msg.getFields()[0] = TipoDeMensagem.JOGO_INICIADO.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
+	
+	public static Mensagem getMensagemJogadorFazJogada(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.JOGADOR_FAZ_JOGADA.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
+	
+	public static Mensagem getMensagemJogadorEspera(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.JOGADOR_ESPERA.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
 	
 }

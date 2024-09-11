@@ -9,7 +9,14 @@ public enum StatusJogo {
 	jogoEncerrado(5),
 	jogadaInvalida(6),
 	jogoIniciado(7),
-	enviandoTabuleiro(8);
+	enviandoTabuleiro(8),
+	
+	
+	ESPERANDO_JOGADOR(9),
+	JOGO_INICIADO(10),
+	JOGO_ESPERANDO_JOGADA(11);
+	
+	
 	
 	
 

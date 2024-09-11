@@ -15,6 +15,18 @@ public enum TipoDeMensagem {
 	jogadorVenceu,
 	suaVez,
 	aguardeSuaVez,
-	tabuleiro
+	tabuleiro,
+	
+	
+	
+	
+	
+	
+	ESPERANDO_JOGADORES,
+	JOGO_INICIADO,
+	JOGO_ENCERRADO,
+	JOGADOR_FAZ_JOGADA,
+	JOGADOR_ESPERA
+	
 	
 }

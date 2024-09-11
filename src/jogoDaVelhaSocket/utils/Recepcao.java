@@ -39,8 +39,6 @@ public class Recepcao extends Thread {
                 Mensagem msg = (Mensagem) objectInStream.readObject();
 
                 this.fila.offer(new Pacote(receivePacket.getAddress(), receivePacket.getPort(), msg));
-                System.out.println("o que o cliente digitou" + msg.getFields()[0]);
-                System.out.println("metodo run de recepcap ip e porta" + receivePacket.getAddress() + "olha a porta " +receivePacket.getPort());
                 
             }
         } catch (IOException | ClassNotFoundException e) {

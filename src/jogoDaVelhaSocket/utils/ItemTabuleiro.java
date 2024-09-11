@@ -18,6 +18,7 @@ public enum ItemTabuleiro {
         String valorEmString = String.valueOf(valor);
         for (ItemTabuleiro item : values()) {
             if (item.valorString.equals(valorEmString)) {
+            	System.out.println("itemtabuleiro "+valor );
                 return item;
             }
         }
