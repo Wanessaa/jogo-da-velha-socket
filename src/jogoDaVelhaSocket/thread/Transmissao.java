@@ -1,4 +1,4 @@
-package jogoDaVelhaSocket.utils;
+package jogoDaVelhaSocket.thread;
 
 import java.net.DatagramSocket;
 import java.util.Queue;
@@ -6,6 +6,8 @@ import java.io.*;
 import java.net.DatagramPacket;
 import java.net.InetAddress;
 import java.util.concurrent.ArrayBlockingQueue;
+
+import jogoDaVelhaSocket.utils.Pacote;
 
 public class Transmissao extends Thread {
 	private final DatagramSocket socket;

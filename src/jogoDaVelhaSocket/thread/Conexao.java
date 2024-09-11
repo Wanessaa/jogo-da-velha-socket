@@ -1,4 +1,4 @@
-package jogoDaVelhaSocket;
+package jogoDaVelhaSocket.thread;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -11,9 +11,8 @@ import java.net.InetAddress;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
 
-import jogoDaVelhaSocket.utils.Mensagem;
+import jogoDaVelhaSocket.mensagem.Mensagem;
 import jogoDaVelhaSocket.utils.Pacote;
-import jogoDaVelhaSocket.utils.Transmissao;
 
 //Cliente usa essa classe para se conectar com o servidor
 

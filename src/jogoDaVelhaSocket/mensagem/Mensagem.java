@@ -1,6 +1,8 @@
-package jogoDaVelhaSocket.utils;
+package jogoDaVelhaSocket.mensagem;
 
 import java.io.Serializable;
+
+import jogoDaVelhaSocket.utils.TipoDeMensagem;
 
 public class Mensagem implements Serializable {
     private final Object[] fields;
@@ -23,18 +25,22 @@ public class Mensagem implements Serializable {
     }
 
     public boolean estaEsperandoOutroJogador() {
-    	return (int) this.fields[0] == TipoDeMensagem.esperandoJogador.ordinal();
+    	return (int) this.fields[0] == TipoDeMensagem.ESPERANDO_JOGADORES.ordinal();
     }
 
     public boolean estaIniciandoOutroJogador() {
-    	return (int) this.fields[0] == TipoDeMensagem.iniciarJogador.ordinal();
+    	return (int) this.fields[0] == TipoDeMensagem.CONECTAR_JOGADOR.ordinal();
     }
     
     public boolean estaEnviandoJogada() {
-    	return (int) this.fields[0] == TipoDeMensagem.enviarJogada.ordinal();
+    	return (int) this.fields[0] == TipoDeMensagem.ENVIANDO_JOGADA.ordinal();
     }
     
     public boolean jogoEncerrouVenceu() {
     	return (int) this.fields[0] == TipoDeMensagem.JOGO_ENCERRADO_VENCEU.ordinal();
+    }
+    
+    public boolean jogoEncerrouEmpatou() {
+    	return (int) this.fields[0] == TipoDeMensagem.JOGO_ENCERRADO_EMPATOU.ordinal();
     }
 }

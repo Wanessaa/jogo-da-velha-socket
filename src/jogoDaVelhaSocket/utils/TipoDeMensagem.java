@@ -1,31 +1,14 @@
 package jogoDaVelhaSocket.utils;
 
 public enum TipoDeMensagem {
-	esperandoJogador,
-	iniciarJogador,
-	jogoEncerrado,
-	vezDoJogador,
-	jogadaInvalida,
-	enviarJogada,
-	entradaInvalida,
-	jogadoresProntos,
-	jogadorInicia,
-	jogadorEspera,
-	jogoEmpatou,
-	jogadorVenceu,
-	suaVez,
-	aguardeSuaVez,
-	tabuleiro,
-	
-	
-	
-	
-	
-	
+
+	JOGADA_INVALIDA,
 	ESPERANDO_JOGADORES,
+	CONECTAR_JOGADOR,
+	ENVIANDO_JOGADA,
 	JOGO_INICIADO,
-	//JOGO_ENCERRADO,
 	JOGADOR_FAZ_JOGADA,
 	JOGADOR_ESPERA,
+	JOGO_ENCERRADO_EMPATOU,
 	JOGO_ENCERRADO_VENCEU;
 }

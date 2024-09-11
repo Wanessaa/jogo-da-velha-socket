@@ -1,4 +1,4 @@
-package jogoDaVelhaSocket;
+package jogoDaVelhaSocket.entidade;
 
 
 public class Jogador {
