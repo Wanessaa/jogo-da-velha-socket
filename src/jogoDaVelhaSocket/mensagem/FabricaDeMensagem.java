@@ -1,7 +1,5 @@
 package jogoDaVelhaSocket.mensagem;
 
-import jogoDaVelhaSocket.utils.TipoDeMensagem;
-
 public class FabricaDeMensagem {
 	public static Mensagem criarMensagemDeEsperandoJogador(String tabuleiro) {
 		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);

@@ -2,8 +2,6 @@ package jogoDaVelhaSocket.mensagem;
 
 import java.io.Serializable;
 
-import jogoDaVelhaSocket.utils.TipoDeMensagem;
-
 public class Mensagem implements Serializable {
     private final Object[] fields;
     public static final int MSG_SIZE = 3;

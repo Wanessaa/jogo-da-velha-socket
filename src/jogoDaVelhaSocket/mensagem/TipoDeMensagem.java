@@ -1,4 +1,4 @@
-package jogoDaVelhaSocket.utils;
+package jogoDaVelhaSocket.mensagem;
 
 public enum TipoDeMensagem {
 
@@ -10,5 +10,6 @@ public enum TipoDeMensagem {
 	JOGADOR_FAZ_JOGADA,
 	JOGADOR_ESPERA,
 	JOGO_ENCERRADO_EMPATOU,
-	JOGO_ENCERRADO_VENCEU;
+	JOGO_ENCERRADO_VENCEU,
+
 }

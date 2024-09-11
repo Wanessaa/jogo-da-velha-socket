@@ -9,9 +9,9 @@ import java.util.Scanner;
 import jogoDaVelhaSocket.entidade.Jogada;
 import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
 import jogoDaVelhaSocket.mensagem.Mensagem;
+import jogoDaVelhaSocket.mensagem.TipoDeMensagem;
 import jogoDaVelhaSocket.thread.Conexao;
 import jogoDaVelhaSocket.utils.ConfiguracoesServidor;
-import jogoDaVelhaSocket.utils.TipoDeMensagem;
 
 
 public class Cliente {
@@ -29,7 +29,8 @@ public class Cliente {
 		if (sentence.equalsIgnoreCase("s")) {
 			conexao.enviarMensagem(FabricaDeMensagem.criarMensagemIniciarJogador());
 		}else {
-			// TODO
+			System.out.println("Você optou por não jogar no momento.");
+			System.exit(0);
 		}
 
 		while(true) {
@@ -62,7 +63,7 @@ public class Cliente {
 						break;
 
 					case JOGADOR_FAZ_JOGADA:
-						System.out.println("Vamos lá, sua vez! 1");
+						System.out.println("Vamos lá, sua vez!");
 						System.out.println("Por favor, diga em qual linha deseja jogar. ");
 						int linha = scanner.nextInt();
 						System.out.println("Por favor, diga em qual coluna deseja jogar. ");
@@ -93,7 +94,6 @@ public class Cliente {
 						System.out.println("====== O jogo deu empate! =======");
 						conexao.stop();
 						break;
-						
 					default:
 						System.out.println("ACABOU");
 						break;

@@ -8,10 +8,10 @@ import jogoDaVelhaSocket.entidade.Jogada;
 import jogoDaVelhaSocket.entidade.Jogador;
 import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
 import jogoDaVelhaSocket.mensagem.Mensagem;
+import jogoDaVelhaSocket.mensagem.TipoDeMensagem;
 import jogoDaVelhaSocket.utils.ItemTabuleiro;
 import jogoDaVelhaSocket.utils.Pacote;
 import jogoDaVelhaSocket.utils.StatusJogo;
-import jogoDaVelhaSocket.utils.TipoDeMensagem;
 
 
 public class JogoDaVelha {
