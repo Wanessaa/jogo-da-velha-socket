@@ -54,8 +54,10 @@ public class Servidor {
 						// Povoar jogadores mapeados
 						int id = quantidadeDeJogadores;
 						Jogador jogador = new Jogador(id, ip.getHostAddress(), porta);
+						if(quantidadeDeJogadores == 0) {
+							jogador.setSuaVez(true);
+						}
 						jogo.jogadoresMapeados.put(id, jogador);
-						
 						quantidadeDeJogadores++;
 
 						transmissao.transmitirPacote(new Pacote(ip, porta,
@@ -64,9 +66,9 @@ public class Servidor {
 
 					if (quantidadeDeJogadores == 2) {
 						
-						// Definindo o jogador q vai jogar primeiro
-						int num = (int) (Math.random() * 2);
-						jogo.jogadoresMapeados.get(num).setSuaVez(true);
+//						// Definindo o jogador q vai jogar primeiro
+//						int num = (int) (Math.random() * 2);
+//						jogo.jogadoresMapeados.get(num).setSuaVez(true);
 						
 						
 						for (Jogador jogador : jogo.jogadoresMapeados.values()) {

@@ -77,7 +77,7 @@ public class JogoDaVelha {
 				else if(venceu) {
 					int jogadorVencedor = informarQuemEOVencedor(jogadoresMapeados);
 					System.out.println("EU SOU QUEM GANHOU " + jogadorVencedor);
-					String vencedor = jogadorVencedor == 1 ? "X" : "O";
+					String vencedor = jogadorVencedor == 1 ? "X" : "0";
 //					
 //					response = "============ FIM DE JOGO ==========\n"
 //							+ "O jogador " + vencedor + " venceu a partida.\n ==== TABULEIRO FINAL ====";
