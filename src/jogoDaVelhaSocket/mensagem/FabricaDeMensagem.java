@@ -1,53 +1,76 @@
 package jogoDaVelhaSocket.mensagem;
 
-import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.util.HashMap;
-
-import jogoDaVelhaSocket.Jogador;
-import jogoDaVelhaSocket.JogoDaVelha;
+import jogoDaVelhaSocket.utils.TipoDeMensagem;
 
 public class FabricaDeMensagem {
-	
-	public static void enviarMensagemDeJogadas(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,
-			JogoDaVelha jogo) throws Exception {
-		
-		String response;
-		enviarTabuleiroAosJogadores(jogadores, serverSocket, jogo);
-		
-		for (Jogador jogador : jogadores.values()) {
-			if (jogador.isSuaVez() == true) {
-				response = "Sua vez!";
-				EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
-						jogador.getPorta());
-			} else {
-				response = "Aguarde sua vez";
-				EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
-						jogador.getPorta());
-			}
-		}
-	}
+	public static Mensagem criarMensagemDeEsperandoJogador(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
-	public static void enviarTabuleiroAosJogadores(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket, JogoDaVelha jogo) throws Exception {
-		String response;
-		
-//		for(Jogador jogador : jogadores.values()) {
-////			response = JogoDaVelha.imprimirTabuleiro(jogo);
-//			EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
-//					jogador.getPorta());
-//		}
+		msg.getFields()[0] = TipoDeMensagem.ESPERANDO_JOGADORES.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
 	}
 	
-	public static void enviarMensagemDeFimDeJogo(HashMap<Integer, Jogador> jogadores, DatagramSocket serverSocket,
-			JogoDaVelha jogo, String response) throws Exception {
+	public static Mensagem criarMensagemIniciarJogador() {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
-		for (Jogador jogador : jogadores.values()) {
-			EnvioDePacote.enviarMensagem(serverSocket, response, InetAddress.getByName(jogador.getIp()),
-					jogador.getPorta());
-		}
+		msg.getFields()[0] = TipoDeMensagem.CONECTAR_JOGADOR.ordinal();
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemJogoEncerradoVenceu(String tabuleiro, String vencedor) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
 
-		enviarTabuleiroAosJogadores(jogadores, serverSocket, jogo);
+		msg.getFields()[0] = TipoDeMensagem.JOGO_ENCERRADO_VENCEU.ordinal();
+		msg.getFields()[1] = vencedor;
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemJogoEncerradoEmpatou(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.JOGO_ENCERRADO_EMPATOU.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemEnviarJogada(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.ENVIANDO_JOGADA.ordinal();
+
+		return msg;
 	}
 
+	public static Mensagem getMensagemJogoIniciado(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.JOGO_INICIADO.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
+	
+	public static Mensagem getMensagemJogadorFazJogada(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.JOGADOR_FAZ_JOGADA.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
+	
+	public static Mensagem criarMensagemJogadorEspera(String tabuleiro) {
+		Mensagem msg = new Mensagem(new Object[Mensagem.MSG_SIZE]);
+
+		msg.getFields()[0] = TipoDeMensagem.JOGADOR_ESPERA.ordinal();
+		msg.getFields()[2] = tabuleiro;
+
+		return msg;
+	}
 	
 }

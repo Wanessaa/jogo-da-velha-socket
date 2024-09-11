@@ -1,4 +1,4 @@
-package jogoDaVelhaSocket.utils;
+package jogoDaVelhaSocket.thread;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -7,6 +7,9 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.util.Queue;
 import java.util.concurrent.ArrayBlockingQueue;
+
+import jogoDaVelhaSocket.mensagem.Mensagem;
+import jogoDaVelhaSocket.utils.Pacote;
 
 
 // recepcao é p o servidor se comunicar com o cliente

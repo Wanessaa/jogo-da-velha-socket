@@ -1,4 +1,4 @@
-package jogoDaVelhaSocket;
+package jogoDaVelhaSocket.entidade;
 
 import java.io.Serializable;
 

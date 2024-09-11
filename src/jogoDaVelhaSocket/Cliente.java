@@ -1,19 +1,16 @@
 package jogoDaVelhaSocket;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.InputStreamReader;
-import java.io.ObjectOutputStream;
-import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.util.Scanner;
 
-import jogoDaVelhaSocket.mensagem.EnvioDePacote;
+import jogoDaVelhaSocket.entidade.Jogada;
+import jogoDaVelhaSocket.mensagem.FabricaDeMensagem;
+import jogoDaVelhaSocket.mensagem.Mensagem;
+import jogoDaVelhaSocket.thread.Conexao;
 import jogoDaVelhaSocket.utils.ConfiguracoesServidor;
-import jogoDaVelhaSocket.utils.FabricaDeMensagem;
-import jogoDaVelhaSocket.utils.Mensagem;
-import jogoDaVelhaSocket.utils.Pacote;
 import jogoDaVelhaSocket.utils.TipoDeMensagem;
 
 
@@ -44,7 +41,7 @@ public class Cliente {
 
 			}else {
 				Object obj = mensagem.getFields()[0];
-				System.out.println(mensagem.getFields()[0]);
+				//System.out.println(mensagem.getFields()[0]);
 
 				if (obj instanceof Integer) {
 					int valor = (Integer) obj;
@@ -65,8 +62,6 @@ public class Cliente {
 						break;
 
 					case JOGADOR_FAZ_JOGADA:
-
-
 						System.out.println("Vamos lá, sua vez! 1");
 						System.out.println("Por favor, diga em qual linha deseja jogar. ");
 						int linha = scanner.nextInt();
@@ -74,34 +69,35 @@ public class Cliente {
 						int coluna = scanner.nextInt();
 						System.out.println(linha + " " + coluna);
 						Jogada jogada = new Jogada(linha, coluna);
-						Object[] conteudoMensagem = {TipoDeMensagem.enviarJogada.ordinal(), jogada};
+						Object[] conteudoMensagem = {TipoDeMensagem.ENVIANDO_JOGADA.ordinal(), jogada};
 						Mensagem jogadaMensagem = new Mensagem(conteudoMensagem);
 						conexao.enviarMensagem(jogadaMensagem);
 						System.out.println(mensagem.getTabuleiro());
-
 						break;
 
 					case JOGADOR_ESPERA:
 						System.out.println(mensagem.getTabuleiro());
-						System.out.println("Aguarde, o outro jogador será o primeiro");
+						System.out.println("Aguarde a sua vez!");
 
 						break;
 
-						// O jogo foi encerrado
-					case JOGO_ENCERRADO:
-						System.out.println("JOGO_ENCERRADO");
+					case JOGO_ENCERRADO_VENCEU:
+						String msg = (String) mensagem.getFields()[1];
+						System.out.println("====== O jogo encerrou! ======nO jogador " + msg + " venceu.");
+						conexao.stop();
+						
 						break;
+					
+					case JOGO_ENCERRADO_EMPATOU:
+						System.out.println(mensagem.getTabuleiro());
+						System.out.println("====== O jogo deu empate! =======");
+						conexao.stop();
+						break;
+						
 					default:
 						System.out.println("ACABOU");
 						break;
-
-
-
-
 					}
-
-
-
 				} else {
 					System.out.println("Tipo inválido para conversão para enum.");
 				}
