@@ -37,13 +37,11 @@ public class Cliente {
 			mensagem = conexao.receberMensagem();
 
 			if (mensagem == null) {
-				// Pause o loop por um breve momento para não consumir CPU desnecessariamente
-				Thread.sleep(500);  // A pausa evita sobrecarregar o processador
+				Thread.sleep(200);  // A pausa evita sobrecarregar o processador
 
 			}else {
 				Object obj = mensagem.getFields()[0];
-				//System.out.println(mensagem.getFields()[0]);
-
+				
 				if (obj instanceof Integer) {
 					int valor = (Integer) obj;
 
@@ -51,12 +49,12 @@ public class Cliente {
 
 					switch (tipoDeMensagem) {
 
-					// Est� esperando os 2 jogadores iniciarem o jogo
+					// Esta esperando os 2 jogadores iniciarem o jogo
 					case ESPERANDO_JOGADORES:
 						System.out.println("ESPERANDO_JOGADORES");
 						break;
 
-						// Os 2 jogadores est�o conectados
+						// Os 2 jogadores estao conectados
 					case JOGO_INICIADO:
 						System.out.println("JOGO_INICIADO");
 						System.out.println(mensagem.getTabuleiro());
@@ -84,7 +82,7 @@ public class Cliente {
 
 					case JOGO_ENCERRADO_VENCEU:
 						String msg = (String) mensagem.getFields()[1];
-						System.out.println("====== O jogo encerrou! ======nO jogador " + msg + " venceu.");
+						System.out.println("====== Fim de jogo! ====== O jogador " + msg + " venceu!");		
 						conexao.stop();
 						
 						break;

@@ -1,12 +1,5 @@
 package jogoDaVelhaSocket;
 
-/**
- * 
- * implementar logica para aparecer a opção de jogada para os jogadas por vez 
- * implementar o tabuleiro para aparecer antes da primeira jogada
- * implementar o tabuleiro para os dois jogadores apos cada jogada
- */
-
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 
@@ -39,8 +32,8 @@ public class Servidor {
 					pacote = recepcao.receberMensagem();
 
 					if (pacote == null) {
-						// Pause o loop por um breve momento para não consumir CPU desnecessariamente
-						Thread.sleep(200); // A pausa evita sobrecarregar o processador
+						
+						Thread.sleep(200); 
 						break;
 					}
 
@@ -138,7 +131,7 @@ public class Servidor {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-			// Espera de 1 segundo antes de continuar o loop
+			
 			Thread.sleep(1000);
 		}
 	}

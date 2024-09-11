@@ -154,7 +154,6 @@ public class JogoDaVelha {
 		return vencedor == 1 ? "X" : "O";
 	}
 	
-	// PATO
 	public String imprimirTabuleiro() {
 
 		try {
