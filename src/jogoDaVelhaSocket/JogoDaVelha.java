@@ -40,7 +40,6 @@ public class JogoDaVelha {
 		boolean venceu = false;
 			if (jogadaValida(jogada)) {
 
-				System.out.println("jogadas " + jogadas);
 				
 				if (jogadas % 2 == 0) {
 				    jogadorMapeado = jogadoresMapeados.get(0);  // Jogador 'O'
@@ -75,7 +74,7 @@ public class JogoDaVelha {
 									FabricaDeMensagem.criarMensagemJogadorEspera(this.imprimirTabuleiro()));
 				}
 			} else {
-				Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.JOGADA_INVALIDA.ordinal()});
+				Mensagem mensagem = new Mensagem(new Object[] { TipoDeMensagem.JOGADA_INVALIDA.ordinal(), null, this.imprimirTabuleiro()});
 				return new Pacote(dadosCliente.address(), dadosCliente.port(), mensagem);
 			}
 	}
@@ -101,10 +100,11 @@ public class JogoDaVelha {
 	}
 
 	private boolean jogadaValida(Jogada jogada) {
+		if ((jogada.getLinha() >= 0 && jogada.getLinha() <=2) || (jogada.getColuna() >= 0 && jogada.getColuna() <=2)) {
+			return this.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO);
+		}
 		
-		
-		
-		return this.getTabuleiro()[jogada.getLinha()][jogada.getColuna()].equals(ItemTabuleiro.VAZIO);
+		return false;
 	}
 
 	private void realizarJogada(Jogada jogada, Jogador jogador) {

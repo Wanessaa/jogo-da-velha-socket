@@ -51,7 +51,7 @@ public class Cliente {
 
 					// Esta esperando os 2 jogadores iniciarem o jogo
 					case ESPERANDO_JOGADORES:
-						System.out.println("Esperando jogadores se conectarem...");
+						System.out.println("esperando os jogadores se conectarem...");
 						break;
 
 						// Os 2 jogadores estao conectados
@@ -92,12 +92,16 @@ public class Cliente {
 						System.out.println("====== O jogo deu empate! =======");
 						conexao.stop();
 						break;
+					case JOGADA_INVALIDA:
+						System.out.println(mensagem.getTabuleiro());
+						System.out.println("====== JOGADA INVALIDA! =======");
+						break;
 					default:
 						System.out.println("ACABOU");
 						break;
 					}
 				} else {
-					System.out.println("Tipo inv�lido para convers�o para enum.");
+					System.out.println("Tipo inválido para conversão para enum.");
 				}
 
 
